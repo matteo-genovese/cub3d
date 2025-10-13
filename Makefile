@@ -1,6 +1,6 @@
 NAME = cub3D
 CC	= cc -std=gnu11
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS =
 
 INCLUDES = -I ./mlx
 LIBS = -L ./mlx ./mlx/libmlx.a -lXext -lX11 -lm
@@ -9,7 +9,7 @@ SRC_DIR = src/
 OBJ_DIR = obj/
 INCLUDE_DIR = include/
 
-SRC_FILES = main.c initialize.c
+SRC_FILES = main.c initialize.c dda.c
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))

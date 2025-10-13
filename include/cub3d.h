@@ -17,5 +17,7 @@ typedef struct s_mlx_win
 }				t_mlx_win;
 
 void	init(t_mlx_win *vars);
+void	render(t_mlx_win *vars);
+void	draw_line(void *mlx, void *win, int beginX, int beginY, int endX, int endY, int color);
 
 #endif

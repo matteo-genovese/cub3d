@@ -1,4 +1,5 @@
 #include "cub3d.h"
+#include <string.h>
 
 #define mapWidth 24
 #define mapHeight 24
@@ -31,24 +32,38 @@ int worldMap[mapWidth][mapHeight]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-void draw_line(void *mlx, void *win, int beginX, int beginY, int endX, int endY, int color) {
-    double deltaX = endX - beginX;
-    double deltaY = endY - beginY;
-    int pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
-    deltaX /= pixels;
-    deltaY /= pixels;
+void my_mlx_pixel_put(t_mlx_win *mlx_win, int x, int y, int color)
+{
+  char    *dst;
+  int     bpp_bytes;
 
-    double pixelX = beginX;
-    double pixelY = beginY;
-    while (pixels) {
-        mlx_pixel_put(mlx, win, pixelX, pixelY, color);
-        pixelX += deltaX;
-        pixelY += deltaY;
-        --pixels;
-    }
+  if (x < 0 || x >= S_WIDTH || y < 0 || y >= S_HEIGHT)
+    return;
+  bpp_bytes = mlx_win->bits_per_pixel / 8;
+  dst = mlx_win->addr + (y * mlx_win->line_length + x * bpp_bytes);
+  *(unsigned int *)dst = (unsigned int)color;
 }
 
-void	render(t_mlx_win *mlx)
+void draw_line(t_mlx_win *mlx_win, int beginX, int beginY, int endX, int endY, int color) {
+  double deltaX = endX - beginX;
+  double deltaY = endY - beginY;
+  int pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
+  if (pixels == 0)
+    return;
+  deltaX /= pixels;
+  deltaY /= pixels;
+
+  double pixelX = beginX;
+  double pixelY = beginY;
+  while (pixels) {
+    my_mlx_pixel_put(mlx_win, (int)pixelX, (int)pixelY, color);
+    pixelX += deltaX;
+    pixelY += deltaY;
+    --pixels;
+  }
+}
+
+void	render(t_vars *vars)
 {
   int	  i;
   int	  hit;
@@ -60,20 +75,24 @@ void	render(t_mlx_win *mlx)
   double  ray[2];
   double  dir[2];
   double  plane[2];
-  double  times[2];
   double  sidedist[2];
   double  deltadist[2];
+  t_mlx_win *mlx;
 
+  mlx = vars->mlx;
   i = 0;
-  position[0] = 22;
-  position[1] = 12;
-  dir[0] = -1;
-  dir[1] = 0;
-  plane[0] = 0;
-  plane[1] = 0.66;
-  times[0] = 0;
-  times[1] = 0;
+  position[0] = vars->pos_x;
+  position[1] = vars->pos_y;
+  dir[0] = vars->dir_x;
+  dir[1] = vars->dir_y;
+  plane[0] = vars->plane[0];
+  plane[1] = vars->plane[1];
+  sidedist[0] = 0;
+  sidedist[1] = 0;
   hit = 0;
+  /* clear image buffer for a fresh frame */
+  if (mlx && mlx->addr)
+    memset(mlx->addr, 0, S_HEIGHT * mlx->line_length);
   while ( i < S_WIDTH)
   {
     hit = 0;
@@ -103,7 +122,7 @@ void	render(t_mlx_win *mlx)
       step[1] = -1;
       sidedist[1] = (position[1] - map[1]) * deltadist[1];
     }
-    if (ray[0] < 0)
+    else
     {
       step[1] = 1;
       sidedist[1] = (- position[1] + map[1] + 1) * deltadist[1];
@@ -122,7 +141,8 @@ void	render(t_mlx_win *mlx)
 	map[1] += step[1];
 	side = 1;
       }
-	if (worldMap[map[0]][map[1]] > 0) hit = 1;
+    if (worldMap[map[0]][map[1]] > 0)
+      hit = 1;
     }
     double  perp_wall_dist;
     if (side == 0)
@@ -136,8 +156,33 @@ void	render(t_mlx_win *mlx)
     int drawEnd = line_height / 2 + S_HEIGHT / 2;
     if(drawEnd >= S_HEIGHT)drawEnd = S_HEIGHT - 1;
 
-    draw_line(mlx->mlx, mlx->win, i, draw_start , i , drawEnd, 0xFFFFFF);
+    /* choose color based on map tile (face) */
+    int tile = worldMap[map[0]][map[1]];
+    int color;
+    switch (tile)
+    {
+      case 1: color = 0xFF0000; break; /* red */
+      case 2: color = 0x00FF00; break; /* green */
+      case 3: color = 0x0000FF; break; /* blue */
+      case 4: color = 0xFFFF00; break; /* yellow */
+      case 5: color = 0xFF00FF; break; /* magenta */
+      default: color = 0xFFFFFF; break; /* white */
+    }
+    /* darken color for y-side hits to give visual depth */
+    if (side == 1)
+    {
+      int r = (color >> 16) & 0xFF;
+      int g = (color >> 8) & 0xFF;
+      int b = color & 0xFF;
+      r = r / 2;
+      g = g / 2;
+      b = b / 2;
+      color = (r << 16) | (g << 8) | b;
+    }
+    draw_line(mlx, i, draw_start , i , drawEnd, color);
     i++;
   }
+  /* put the composed image to the window once per frame */
+  mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 }
 

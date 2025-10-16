@@ -21,7 +21,7 @@ else ifeq ($(UNAME), FreeBSD)
 	CC = clang
 else
 	#Linux and others...
-	CC	= gcc-14
+	CC	= gcc
 	LFLAGS += -lbsd
 endif
 

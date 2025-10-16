@@ -56,3 +56,6 @@ dkms.conf
 
 #valgrind
 vgcore*
+
+#mlx
+mlx

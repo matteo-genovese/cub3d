@@ -32,7 +32,6 @@ int	main(void)
 	mlx.win = NULL;
 	init(&mlx);
 
-
 	vars.mlx = &mlx;
 	vars.pos_x = 22;
 	vars.pos_y = 11;

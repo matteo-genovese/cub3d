@@ -22,16 +22,26 @@ typedef struct s_mlx_win
 	int endian;
 }				t_mlx_win;
 
+typedef struct s_image
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_image;
+
 typedef struct s_vars
 {
 	t_mlx_win	*mlx;
+	t_image		textures[4];
 	double		pos_x;
 	double		pos_y;
 	double		dir_x;
 	double		dir_y;
 	double		move_speed;
 	double		rot_speed;
-	double	plane[2];
+	double		plane[2];
 }				t_vars;
 
 void	init(t_mlx_win *vars);

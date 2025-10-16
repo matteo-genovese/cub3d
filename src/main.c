@@ -27,11 +27,13 @@ int	main(void)
 {
 	t_mlx_win	mlx;
 	t_vars		vars;
+	void		*img;
 
 	mlx.mlx = NULL;
 	mlx.win = NULL;
 	init(&mlx);
 
+	// Initialize vars structure first
 	vars.mlx = &mlx;
 	vars.pos_x = 22;
 	vars.pos_y = 11;
@@ -41,6 +43,26 @@ int	main(void)
 	vars.plane[1] = 0.66;
 	vars.move_speed = 0.5;
 	vars.rot_speed = acos(-1.0) / 12.0;
+
+	// Load texture after mlx is properly initialized
+	img = mlx_xpm_file_to_image(mlx.mlx, "textures/Fabiana.xpm", &vars.textures[0].width, &vars.textures[0].height);
+	if (!img)
+	{
+		printf("Error: Failed to load texture 'textures/Fabiana.xpm'\n");
+		exit(EXIT_FAILURE);
+	}
+	vars.textures[0].img = img;
+	vars.textures[1].img = mlx_xpm_file_to_image(mlx.mlx, "textures/Federico.xpm", &vars.textures[1].width, &vars.textures[1].height);
+	if (!vars.textures[1].img)
+	{
+		printf("Error: Failed to load texture 'textures/Alice.xpm'\n");
+		exit(EXIT_FAILURE);
+	}
+	vars.textures[1].addr = mlx_get_data_addr(vars.textures[1].img, &vars.textures[1].bits_per_pixel,
+			&vars.textures[1].line_length, &vars.textures[1].endian);
+	vars.textures[0].addr = mlx_get_data_addr(img, &vars.textures[0].bits_per_pixel,
+			&vars.textures[0].line_length, &vars.textures[0].endian);
+
 	hooks(&vars);
 	render(&vars);
 	// mlx_loop_hook(mlx.mlx, render_loop, &vars);

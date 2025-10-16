@@ -56,30 +56,31 @@ void	my_mlx_pixel_put(t_mlx_win *mlx_win, int x, int y, int color)
 	*(unsigned int *)dst = (unsigned int)color;
 }
 
-void	draw_line(t_mlx_win *mlx_win, int beginX, int beginY, int endX,
-		int endY, int color)
+void	draw_vertical_texture(t_mlx_win *mlx_win, int X, int beginY,
+		int endY, t_image texture, int textureX)
 {
-	double	deltaX;
-	double	deltaY;
-	int		pixels;
-	double	pixelX;
-	double	pixelY;
-
-	deltaX = endX - beginX;
-	deltaY = endY - beginY;
-	pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
-	if (pixels == 0)
+	double step;
+	double texturePos;
+	int textureY;
+	int y;
+	int color;
+	if (X < 0 || X >= S_WIDTH)
 		return ;
-	deltaX /= pixels;
-	deltaY /= pixels;
-	pixelX = beginX;
-	pixelY = beginY;
-	while (pixels)
+	if (beginY < 0)
+		beginY = 0;
+	if (endY >= S_HEIGHT)
+		endY = S_HEIGHT - 1;
+	step = 1.0 * texture.height / (endY - beginY);
+	texturePos = (beginY - S_HEIGHT / 2 + (endY - beginY) / 2) * step;
+	y = beginY;
+	while (y < endY)
 	{
-		my_mlx_pixel_put(mlx_win, (int)pixelX, (int)pixelY, color);
-		pixelX += deltaX;
-		pixelY += deltaY;
-		--pixels;
+		textureY = (int)texturePos & (texture.height - 1);
+		texturePos += step;
+		color = *(unsigned int *)(texture.addr + (textureY * texture.line_length
+					+ textureX * (texture.bits_per_pixel / 8)));
+		my_mlx_pixel_put(mlx_win, X, y, color);
+		y++;
 	}
 }
 
@@ -103,7 +104,7 @@ void	render(t_vars *vars)
 	int			draw_start;
 	int			drawEnd;
 	int			tile;
-		int color;
+	int			texture_index;
 	int			r;
 	int			g;
 	int			b;
@@ -191,23 +192,37 @@ void	render(t_vars *vars)
 		switch (side)
 		{
 		case 'N':
-			color = 0xFF0000;
+			texture_index = 0;
 			break ; /* red */
 		case 'S':
-			color = 0x00FF00;
+			texture_index = 1;
 			break ; /* green */
 		case 'E':
-			color = 0x0000FF;
+			texture_index = 0;
 			break ; /* blue */
 		case 'W':
-			color = 0xFFFF00;
+			texture_index = 0;
 			break ; /* yellow */
 		default:
-			color = 0xFFFFFF;
+			texture_index = 0;
 			break ; /* white */
 		}
 		/* darken color for y-side hits to give visual depth */
-		draw_line(mlx, i, draw_start, i, drawEnd, color);
+		double wallX; // where exactly the wall was hit
+		if (side == 'N' || side == 'S')
+			wallX = position[1] + perp_wall_dist * ray[1];
+		else
+			wallX = position[0] + perp_wall_dist * ray[0];
+		wallX -= floor((wallX));
+		// x coordinate on the texture
+		int texture_x = (int)(wallX * (double)(vars->textures[texture_index].width));
+		if ((side == 'N' || side == 'S') && ray[0] > 0)
+			texture_x = vars->textures[texture_index].width - texture_x - 1;
+		if ((side == 'E' || side == 'W') && ray[1] < 0)
+			texture_x = vars->textures[texture_index].width - texture_x - 1;
+		// draw the pixels of the stripe as a vertical textured line
+
+		draw_vertical_texture(mlx, i, draw_start, drawEnd, vars->textures[texture_index], texture_x);
 		i++;
 	}
 	/* put the composed image to the window once per frame */

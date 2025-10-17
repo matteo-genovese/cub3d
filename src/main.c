@@ -45,17 +45,17 @@ int	main(void)
 	vars.rot_speed = acos(-1.0) / 12.0;
 
 	// Load texture after mlx is properly initialized
-	img = mlx_xpm_file_to_image(mlx.mlx, "textures/Fabiana.xpm", &vars.textures[0].width, &vars.textures[0].height);
+	img = mlx_xpm_file_to_image(mlx.mlx, "textures/bricks.xpm", &vars.textures[0].width, &vars.textures[0].height);
 	if (!img)
 	{
-		printf("Error: Failed to load texture 'textures/Fabiana.xpm'\n");
+		printf("Error: Failed to load texture 'textures/bricks.xpm'\n");
 		exit(EXIT_FAILURE);
 	}
 	vars.textures[0].img = img;
-	vars.textures[1].img = mlx_xpm_file_to_image(mlx.mlx, "textures/Federico.xpm", &vars.textures[1].width, &vars.textures[1].height);
+	vars.textures[1].img = mlx_xpm_file_to_image(mlx.mlx, "textures/bricks.xpm", &vars.textures[1].width, &vars.textures[1].height);
 	if (!vars.textures[1].img)
 	{
-		printf("Error: Failed to load texture 'textures/Alice.xpm'\n");
+		printf("Error: Failed to load texture 'textures/bricks.xpm'\n");
 		exit(EXIT_FAILURE);
 	}
 	vars.textures[1].addr = mlx_get_data_addr(vars.textures[1].img, &vars.textures[1].bits_per_pixel,

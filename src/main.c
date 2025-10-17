@@ -3,23 +3,32 @@
 int	render_loop(void *param)
 {
 	t_vars	*vars;
-	static double fps;
-	struct timeval	ctv;
-	static struct timeval	ptv;
-	gettimeofday(&ctv, NULL);
+	static struct timeval ptv = {0, 0};
+	struct timeval ctv;
+	static int frame_count = 0;
+	static double fps_timer = 0;
+
 	vars = (t_vars *)param;
+	gettimeofday(&ctv, NULL);
 
 	double delta = (ctv.tv_sec - ptv.tv_sec) + (ctv.tv_usec - ptv.tv_usec) / 1000000.0;
-	if (delta >= 1.0)
+	
+	if (delta >= 1.0/FPS)
 	{
-		fps = (double)1.0 / delta;
-		printf("FPS: %.2lf, delta: %.2lf\n", fps, delta);
+		vars->move_speed = delta * 3.0;
+		vars->rot_speed = delta * 1.0;
+		move(vars);
+		render(vars);
+		fps_timer += delta;
+		frame_count++;
+		if (fps_timer >= 1.0)
+		{
+			printf("FPS: %d\n", frame_count);
+			frame_count = 0;
+			fps_timer = 0;
+		}
 		ptv = ctv;
 	}
-	// vars->move_speed = delta * 5.0; // adjust multiplier for desired speed
-	// vars->rot_speed = delta * 1.0;  // adjust multiplier for desired
-
-	// render(vars);
 	return (0);
 }
 
@@ -34,6 +43,7 @@ int	main(void)
 	init(&mlx);
 
 	// Initialize vars structure first
+	ft_memset(&vars, 0, sizeof(t_vars));
 	vars.mlx = &mlx;
 	vars.pos_x = 22;
 	vars.pos_y = 11;
@@ -44,12 +54,8 @@ int	main(void)
 	vars.move_speed = 0.1;
 	vars.keys.right = 0;
 	vars.keys.left = 0;
-	vars.keys.a = 0;
-	vars.keys.d = 0;
-	vars.keys.w = 0;
-	vars.keys.s = 0;
 
-	vars.rot_speed = acos(-1.0) / 32.0;
+	vars.rot_speed = acos(-1.0) / 32.0 ;
 
 	// Load texture after mlx is properly initialized
 	img = mlx_xpm_file_to_image(mlx.mlx, "textures/bricks.xpm", &vars.textures[0].width, &vars.textures[0].height);

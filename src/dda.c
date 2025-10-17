@@ -66,13 +66,18 @@ void	draw_vertical_texture(t_mlx_win *mlx_win, int X, int beginY,
 	int color;
 	if (X < 0 || X >= S_WIDTH)
 		return ;
-	if (beginY < 0)
-		beginY = 0;
-	if (endY >= S_HEIGHT)
-		endY = S_HEIGHT - 1;
+
+
 	step = 1.0 * texture.height / (endY - beginY);
 	texturePos = (beginY - S_HEIGHT / 2 + (endY - beginY) / 2) * step;
-	y = beginY;
+	if (endY >= S_HEIGHT)
+		endY = S_HEIGHT - 1;
+	if (beginY < 0)
+	{
+		texturePos = step * (-beginY);
+		beginY = 0;
+	}
+	y =  beginY;
 	while (y < endY)
 	{
 		textureY = (int)texturePos & (texture.height - 1);
@@ -184,11 +189,11 @@ void	render(t_vars *vars)
 			perp_wall_dist = (sidedist[1] - deltadist[1]);
 		line_height = (int)(S_HEIGHT / perp_wall_dist);
 		draw_start = -line_height / 2 + S_HEIGHT / 2;
-		if (draw_start < 0)
-			draw_start = 0;
+		// if (draw_start < 0)
+		// 	draw_start = 0;
 		drawEnd = line_height / 2 + S_HEIGHT / 2;
-		if (drawEnd >= S_HEIGHT)
-			drawEnd = S_HEIGHT - 1;
+		// if (drawEnd >= S_HEIGHT)
+		// 	drawEnd = S_HEIGHT - 1;
 		switch (side)
 		{
 		case 'N':

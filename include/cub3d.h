@@ -3,6 +3,7 @@
 
 # define S_WIDTH 1080
 # define S_HEIGHT 720
+# define FPS 60
 
 # include <mlx.h>
 # include <stdlib.h>
@@ -10,6 +11,7 @@
 # include <math.h>
 # include <stdio.h>
 #include <sys/time.h>
+# include "libft.h"
 
 typedef struct s_mlx_win
 {
@@ -58,6 +60,7 @@ typedef struct s_vars
 }				t_vars;
 
 void	init(t_mlx_win *vars);
+void	move(t_vars *vars);
 void	render(t_vars *vars);
 void	hooks(t_vars *vars);
 void	draw_line(t_mlx_win *mlx_win, int beginX, int beginY, int endX, int endY, int color);

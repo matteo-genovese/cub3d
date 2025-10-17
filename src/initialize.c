@@ -76,6 +76,34 @@ Right Arrow: 65363
 // 	return (0);
 // }
 
+void	move(t_vars *vars)
+{
+	if (vars->keys.w)
+	{
+		vars->pos_x += vars->dir_x * vars->move_speed;
+		vars->pos_y += vars->dir_y * vars->move_speed;
+	}
+	if (vars->keys.s)
+	{
+		vars->pos_x -= vars->dir_x * vars->move_speed;
+		vars->pos_y -= vars->dir_y * vars->move_speed;
+	}
+	if (vars->keys.a)
+	{
+		vars->pos_x -= vars->dir_y * vars->move_speed;
+		vars->pos_y += vars->dir_x * vars->move_speed;
+	}
+	if (vars->keys.d)
+	{
+		vars->pos_x += vars->dir_y * vars->move_speed;
+		vars->pos_y -= vars->dir_x * vars->move_speed;
+	}
+	if (vars->keys.left)
+		rotate_view(vars, vars->rot_speed);
+	if (vars->keys.right)
+		rotate_view(vars, -vars->rot_speed);
+	render(vars);
+}
 
 int	key_press_handler(int keycode, t_vars *vars)
 {
@@ -93,6 +121,7 @@ int	key_press_handler(int keycode, t_vars *vars)
 		vars->keys.left = 1;
 	if (keycode == 65363)
 		vars->keys.right = 1;
+	move(vars);
 	return (0);
 }
 

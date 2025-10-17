@@ -22,6 +22,16 @@ typedef struct s_mlx_win
 	int endian;
 }				t_mlx_win;
 
+typedef struct keys
+{
+	int	w;
+	int	a;
+	int	s;
+	int	d;
+	int	left;
+	int	right;
+}				t_keys;
+
 typedef struct s_image
 {
 	void	*img;
@@ -37,6 +47,7 @@ typedef struct s_vars
 {
 	t_mlx_win	*mlx;
 	t_image		textures[4];
+	t_keys		keys;
 	double		pos_x;
 	double		pos_y;
 	double		dir_x;

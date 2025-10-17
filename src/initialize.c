@@ -43,43 +43,83 @@ Left Arrow: 65361
 Right Arrow: 65363
 */
 
+// int	key_press_handler(int keycode, t_vars *vars)
+// {
+// 	printf("Key pressed: %d\n", keycode);
+// 	if (keycode == 65307)
+// 		destroy(vars);
+// 	if (keycode == 119)
+// 	{
+// 		vars->pos_x += vars->dir_x * vars->move_speed;
+// 		vars->pos_y += vars->dir_y * vars->move_speed;
+// 	}
+// 	if (keycode == 115)
+// 	{
+// 		vars->pos_x -= vars->dir_x * vars->move_speed;
+// 		vars->pos_y -= vars->dir_y * vars->move_speed;
+// 	}
+// 	if (keycode == 97)
+// 	{
+// 		vars->pos_x -= vars->dir_y * vars->move_speed;
+// 		vars->pos_y += vars->dir_x * vars->move_speed;
+// 	}
+// 	if (keycode == 100)
+// 	{
+// 		vars->pos_x += vars->dir_y * vars->move_speed;
+// 		vars->pos_y -= vars->dir_x * vars->move_speed;
+// 	}
+// 	if (keycode == 65361)
+// 		rotate_view(vars, vars->rot_speed);
+// 	if (keycode == 65363)
+// 		rotate_view(vars, -vars->rot_speed);
+// 	render(vars);
+// 	return (0);
+// }
+
+
 int	key_press_handler(int keycode, t_vars *vars)
 {
 	if (keycode == 65307)
 		destroy(vars);
 	if (keycode == 119)
-	{
-		vars->pos_x += vars->dir_x * vars->move_speed;
-		vars->pos_y += vars->dir_y * vars->move_speed;
-	}
+		vars->keys.w = 1;
 	if (keycode == 115)
-	{
-		vars->pos_x -= vars->dir_x * vars->move_speed;
-		vars->pos_y -= vars->dir_y * vars->move_speed;
-	}
+		vars->keys.s = 1;
 	if (keycode == 97)
-	{
-		vars->pos_x -= vars->dir_y * vars->move_speed;
-		vars->pos_y += vars->dir_x * vars->move_speed;
-	}
+		vars->keys.a = 1;
 	if (keycode == 100)
-	{
-		vars->pos_x += vars->dir_y * vars->move_speed;
-		vars->pos_y -= vars->dir_x * vars->move_speed;
-	}
+		vars->keys.d = 1;
 	if (keycode == 65361)
-		rotate_view(vars, vars->rot_speed);
+		vars->keys.left = 1;
 	if (keycode == 65363)
-		rotate_view(vars, -vars->rot_speed);
-	render(vars);
+		vars->keys.right = 1;
+	return (0);
+}
+
+int	key_release_handler(int keycode, t_vars *vars)
+{
+	if (keycode == 65307)
+		destroy(vars);
+	if (keycode == 119)
+		vars->keys.w = 0;
+	if (keycode == 115)
+		vars->keys.s = 0;
+	if (keycode == 97)
+		vars->keys.a = 0;
+	if (keycode == 100)
+		vars->keys.d = 0;
+	if (keycode == 65361)
+		vars->keys.left = 0;
+	if (keycode == 65363)
+		vars->keys.right = 0;
 	return (0);
 }
 
 void	hooks(t_vars *vars)
 {
-	printf("vars.pos_x: %f, vars->pos_y: %f\n", vars->pos_x, vars->pos_y);
 	mlx_hook(vars->mlx->win, 17, 0, destroy, vars);
-	mlx_key_hook(vars->mlx->win, key_press_handler, vars);
+	mlx_hook(vars->mlx->win, 2, (1L << 0), key_press_handler, vars);
+	mlx_hook(vars->mlx->win, 3, (1L << 1), key_release_handler, vars);
 }
 
 void	init(t_mlx_win *mlx_win)

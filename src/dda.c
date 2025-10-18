@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dda.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/18 19:36:15 by fde-sist          #+#    #+#             */
+/*   Updated: 2025/10/18 19:39:37 by fde-sist         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
-#include <string.h>
 
 /*
  * Puts a pixel of a given color at (x, y) in the mlx window image
@@ -14,58 +25,6 @@ void	my_mlx_pixel_put(t_mlx_win *mlx_win, int x, int y, int color)
 	bpp_bytes = mlx_win->bits_per_pixel / 8;
 	dst = mlx_win->addr + (y * mlx_win->line_length + x * bpp_bytes);
 	*(unsigned int *)dst = (unsigned int)color;
-}
-
-/*
- * Performs the drawing loop for a vertical stripe
- */
-void	draw_loop(t_vars *vars, int x, t_vectors v, int side, int texture[2])
-{
-	double	step;
-	double	texturePos;
-	int		color;
-
-	step = 1.0 * vars->textures[side].height / (v.draw[1] - v.draw[0]);
-	texturePos = (v.draw[0] - S_HEIGHT / 2 + (v.draw[1] - v.draw[0]) / 2) * step;
-	if (v.draw[1] >= S_HEIGHT)
-		v.draw[1] = S_HEIGHT - 1;
-	if (v.draw[0] < 0)
-	{
-		texturePos = step * (-v.draw[0]);
-		v.draw[0] = 0;
-	}
-	while (v.draw[0] < v.draw[1])
-	{
-		texture[1] = (int)texturePos % vars->textures[side].height;
-		texturePos += step;
-		color = *(unsigned int *)(vars->textures[side].addr + (texture[1] * vars->textures[side].line_length
-					+ texture[0] * (vars->textures[side].bits_per_pixel / 8)));
-		my_mlx_pixel_put(vars->mlx, x, v.draw[0], color);
-		v.draw[0]++;
-	}
-}
-
-/*
- * handles drawing a vertical textured stripe on the image
- */
-void	draw_vertical_texture(t_vars *vars, int x, t_vectors v, double perp_wall_dist, int side)
-{
-	int		texture[2];
-	double	wallX;
-
-	if (side == 0 || side == 1)
-		wallX = vars->pos_y + perp_wall_dist * v.ray[1];
-	else
-		wallX = vars->pos_x + perp_wall_dist * v.ray[0];
-	wallX -= floor(wallX);
-	texture[0] = (int)(wallX * (double)(vars->textures[side].width));
-	if ((side == 0 || side == 1) && v.ray[0] > 0)
-		texture[0] = vars->textures[side].width - texture[0] - 1;
-	if ((side == 2 || side == 3) && v.ray[1] < 0)
-		texture[0] = vars->textures[side].width - texture[0] - 1;
-	if (x < 0 || x >= S_WIDTH)
-		return ;
-	draw_loop(vars, x, v, side, texture);
 }
 
 /*
@@ -131,8 +90,8 @@ void	vectors_setup(t_vars *vars, t_vectors *v, int i)
  */
 void	perform_dda(t_vectors v, int *side, double *perp_wall_dist)
 {
-	int hit;
-	int dir;
+	int	hit;
+	int	dir;
 
 	hit = 0;
 	while (hit == 0)
@@ -152,6 +111,7 @@ void	perform_dda(t_vectors v, int *side, double *perp_wall_dist)
 	if (*perp_wall_dist == 0.0)
 		*perp_wall_dist = 1e-6;
 }
+
 /*
 * Renders a frame based on vars content
 * side encoding: 0 - North, 1 - South, 2 - East, 3 - West
@@ -178,8 +138,9 @@ void	render(t_vars *vars)
 		line_height = (int)(S_HEIGHT / perp_wall_dist);
 		v.draw[0] = -line_height / 2 + S_HEIGHT / 2;
 		v.draw[1] = line_height / 2 + S_HEIGHT / 2;
-		draw_vertical_texture(vars, i, v, perp_wall_dist, side);
+		draw_vertical_texture(vars, (int []){i, side}, v, perp_wall_dist);
 		i++;
 	}
-	mlx_put_image_to_window(vars->mlx->mlx, vars->mlx->win, vars->mlx->img, 0, 0);
+	mlx_put_image_to_window(vars->mlx->mlx, vars->mlx->win,
+		vars->mlx->img, 0, 0);
 }

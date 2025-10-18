@@ -1,94 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initialize.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/18 19:40:15 by fde-sist          #+#    #+#             */
+/*   Updated: 2025/10/18 19:48:05 by fde-sist         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
-
-static void rotate_view(t_vars *vars, double angle)
-{
-	double oldDirX = vars->dir_x;
-	double oldDirY = vars->dir_y;
-	double oldPlaneX = vars->plane[0];
-	double oldPlaneY = vars->plane[1];
-	double c = cos(angle);
-	double s = sin(angle);
-
-	vars->dir_x = oldDirX * c - oldDirY * s;
-	vars->dir_y = oldDirX * s + oldDirY * c;
-	vars->plane[0] = oldPlaneX * c - oldPlaneY * s;
-	vars->plane[1] = oldPlaneX * s + oldPlaneY * c;
-}
-
-int	destroy(t_vars *vars)
-{
-	if (vars->mlx)
-	{
-		if (vars->mlx->mlx)
-		{
-			if (vars->mlx->img)
-				mlx_destroy_image(vars->mlx->mlx, vars->mlx->img);
-			if (vars->mlx->win)
-				mlx_destroy_window(vars->mlx->mlx, vars->mlx->win);
-			mlx_destroy_display(vars->mlx->mlx);
-			free(vars->mlx->mlx);
-		}
-		vars->mlx = NULL;
-		exit(0);
-	}
-	return (0);
-}
-
-int	is_valid_move(t_vars *vars, double newX, double newY)
-{
-	return (vars->map[(int)(newX)][(int)(newY)] != 1);
-}
-
-void	move_w_s(t_vars *vars)
-{
-	if (vars->keys.w)
-	{
-		if (is_valid_move(vars, vars->pos_x + vars->dir_x * vars->move_speed, vars->pos_y + vars->dir_y * vars->move_speed))
-		{
-			vars->pos_x += vars->dir_x * vars->move_speed;
-			vars->pos_y += vars->dir_y * vars->move_speed;
-		}
-	}
-	if (vars->keys.s)
-	{
-		if (is_valid_move(vars, vars->pos_x - vars->dir_x * vars->move_speed, vars->pos_y - vars->dir_y * vars->move_speed))
-		{
-			vars->pos_x -= vars->dir_x * vars->move_speed;
-			vars->pos_y -= vars->dir_y * vars->move_speed;
-		}
-	}
-}
-
-void	move_a_d(t_vars *vars)
-{
-	if (vars->keys.a)
-	{
-		if (is_valid_move(vars, vars->pos_x - vars->dir_y * vars->move_speed, vars->pos_y + vars->dir_x * vars->move_speed))
-		{
-			vars->pos_x -= vars->dir_y * vars->move_speed;
-			vars->pos_y += vars->dir_x * vars->move_speed;
-		}
-	}
-	if (vars->keys.d)
-	{
-		if (is_valid_move(vars, vars->pos_x + vars->dir_y * vars->move_speed, vars->pos_y - vars->dir_x * vars->move_speed))
-		{
-			vars->pos_x += vars->dir_y * vars->move_speed;
-			vars->pos_y -= vars->dir_x * vars->move_speed;
-		}
-	}
-}
-
-void	move(t_vars *vars)
-{
-	move_w_s(vars);
-	move_a_d(vars);
-	if (vars->keys.left)
-		rotate_view(vars, vars->rot_speed);
-	if (vars->keys.right)
-		rotate_view(vars, -vars->rot_speed);
-	render(vars);
-}
 
 int	key_press_handler(int keycode, t_vars *vars)
 {
@@ -129,6 +51,25 @@ int	key_release_handler(int keycode, t_vars *vars)
 	return (0);
 }
 
+int	destroy(t_vars *vars)
+{
+	if (vars->mlx)
+	{
+		if (vars->mlx->mlx)
+		{
+			if (vars->mlx->img)
+				mlx_destroy_image(vars->mlx->mlx, vars->mlx->img);
+			if (vars->mlx->win)
+				mlx_destroy_window(vars->mlx->mlx, vars->mlx->win);
+			mlx_destroy_display(vars->mlx->mlx);
+			free(vars->mlx->mlx);
+		}
+		vars->mlx = NULL;
+		exit(0);
+	}
+	return (0);
+}
+
 void	hooks(t_vars *vars)
 {
 	mlx_hook(vars->mlx->win, 17, 0, destroy, vars);
@@ -157,6 +98,5 @@ void	init(t_mlx_win *mlx_win)
 		exit(EXIT_FAILURE);
 	}
 	mlx_win->addr = mlx_get_data_addr(mlx_win->img, &mlx_win->bits_per_pixel,
-		&mlx_win->line_length, &mlx_win->endian);
+			&mlx_win->line_length, &mlx_win->endian);
 }
-

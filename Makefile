@@ -10,7 +10,7 @@ OBJ_DIR = obj/
 INCLUDE_DIR = include/
 LIBFT_DIR = libft/
 
-SRC_FILES = main.c initialize.c dda.c map.c
+SRC_FILES = main.c initialize.c dda.c map.c texture_draw.c move.c
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))

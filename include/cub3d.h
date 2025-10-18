@@ -35,6 +35,7 @@ typedef struct s_vectors
     double		sidedist[2];
     double		deltadist[2];
 	int			draw[2];
+	int			texture[2];
 }	t_vectors;
 
 typedef struct keys
@@ -85,6 +86,9 @@ void	render(t_vars *vars);
 void	hooks(t_vars *vars);
 void	draw_line(t_mlx_win *mlx_win, int beginX, int beginY, int endX, int endY, int color);
 void	my_mlx_pixel_put(t_mlx_win *mlx_win, int x, int y, int color);
+void	draw_vertical_texture(t_vars *vars, int x_side[2],
+		t_vectors v, double perp_wall_dist);
 void	load_map(t_vars *vars, int src[mapWidth][mapHeight]);
+int		destroy(t_vars *vars);
 
 #endif

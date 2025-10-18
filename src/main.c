@@ -45,7 +45,6 @@ int	render_loop(void *param)
 		vars->move_speed = delta * 3.0;
 		vars->rot_speed = delta * 1.0;
 		move(vars);
-		render(vars);
 		fps_timer += delta;
 		frame_count++;
 		if (fps_timer >= 1.0)
@@ -82,6 +81,8 @@ int	main(void)
 	vars.move_speed = 0.1;
 	vars.keys.right = 0;
 	vars.keys.left = 0;
+	vars.ceiling_color = 0x87CEEB; // Light blue
+	vars.floor_color = 0x228B22;   // Forest green
 	load_map(&vars, worldMap);
 
 	// Load texture after mlx is properly initialized

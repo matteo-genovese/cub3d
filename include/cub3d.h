@@ -3,7 +3,7 @@
 
 # define S_WIDTH 1080
 # define S_HEIGHT 720
-# define FPS 60
+# define FPS 30
 #define mapWidth 24
 #define mapHeight 24
 
@@ -60,6 +60,8 @@ typedef struct s_vars
 	double		move_speed;
 	double		rot_speed;
 	double		plane[2];
+	unsigned int	floor_color;
+	unsigned int	ceiling_color;
 }				t_vars;
 
 //TODO VARIABILE GLOBALE STACCA TUTTO

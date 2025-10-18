@@ -36,12 +36,7 @@ int	destroy(t_vars *vars)
 
 int	is_valid_move(t_vars *vars, double newX, double newY)
 {
-	if (vars->map[(int)(newX)][(int)(newY)] == 1)
-	{
-		printf("non ci siamo\n");
-		return (0);
-	}
-	return (1);
+	return (vars->map[(int)(newX)][(int)(newY)] != 1);
 }
 
 void	move(t_vars *vars)
@@ -145,8 +140,6 @@ void	init(t_mlx_win *mlx_win)
 		perror("Failed to initialize windows");
 		exit(EXIT_FAILURE);
 	}
-
-	/* create image buffer once */
 	mlx_win->img = mlx_new_image(mlx_win->mlx, S_WIDTH, S_HEIGHT);
 	if (!(mlx_win->img))
 	{

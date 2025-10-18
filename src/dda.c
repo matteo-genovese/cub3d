@@ -48,6 +48,33 @@ void	draw_vertical_texture(t_mlx_win *mlx_win, int X, int beginY,
 	}
 }
 
+void	image_startup(t_vars *vars)
+{
+	int	x;
+	int	y;
+
+	x = 0;
+	y = 0;
+	if (vars->mlx && vars->mlx->addr)
+	{
+		while (x < S_WIDTH)
+		{
+			y = 0;
+			while (y < S_HEIGHT / 2)
+			{
+				my_mlx_pixel_put(vars->mlx, x, y, vars->ceiling_color);
+				y++;
+			}
+			while (y < S_HEIGHT)
+			{
+				my_mlx_pixel_put(vars->mlx, x, y, vars->floor_color);
+				y++;
+			}
+			x++;
+		}
+	}
+}
+
 void	render(t_vars *vars)
 {
 	int			i;
@@ -85,8 +112,8 @@ void	render(t_vars *vars)
 	sidedist[1] = 0;
 	hit = 0;
 	/* clear image buffer for a fresh frame */
-	if (mlx && mlx->addr)
-		memset(mlx->addr, 0, S_HEIGHT * mlx->line_length);
+	image_startup(vars);
+	i = 0;
 	while (i < S_WIDTH)
 	{
 		hit = 0;

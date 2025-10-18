@@ -63,7 +63,6 @@ int	main(void)
 {
 	t_mlx_win	mlx;
 	t_vars		vars;
-	void		*img;
 
 	mlx.mlx = NULL;
 	mlx.win = NULL;
@@ -85,14 +84,7 @@ int	main(void)
 	vars.floor_color = 0x228B22;   // Forest green
 	load_map(&vars, worldMap);
 
-	// Load texture after mlx is properly initialized
-	img = mlx_xpm_file_to_image(mlx.mlx, "textures/bricks.xpm", &vars.textures[0].width, &vars.textures[0].height);
-	if (!img)
-	{
-		printf("Error: Failed to load texture 'textures/bricks.xpm'\n");
-		exit(EXIT_FAILURE);
-	}
-	vars.textures[0].img = img;
+	vars.textures[0].img = mlx_xpm_file_to_image(mlx.mlx, "textures/bricks.xpm", &vars.textures[0].width, &vars.textures[0].height);
 	vars.textures[1].img = mlx_xpm_file_to_image(mlx.mlx, "textures/bricks.xpm", &vars.textures[1].width, &vars.textures[1].height);
 	vars.textures[2].img = mlx_xpm_file_to_image(mlx.mlx, "textures/bricks.xpm", &vars.textures[2].width, &vars.textures[2].height);
 	vars.textures[3].img = mlx_xpm_file_to_image(mlx.mlx, "textures/bricks.xpm", &vars.textures[3].width, &vars.textures[3].height);
@@ -101,7 +93,7 @@ int	main(void)
 		printf("Error: Failed to load texture 'textures/bricks.xpm'\n");
 		exit(EXIT_FAILURE);
 	}
-	vars.textures[0].addr = mlx_get_data_addr(img, &vars.textures[0].bits_per_pixel,
+	vars.textures[0].addr = mlx_get_data_addr(vars.textures[0].img, &vars.textures[0].bits_per_pixel,
 					   &vars.textures[0].line_length, &vars.textures[0].endian);
 	vars.textures[1].addr = mlx_get_data_addr(vars.textures[1].img, &vars.textures[1].bits_per_pixel,
 					   &vars.textures[1].line_length, &vars.textures[1].endian);

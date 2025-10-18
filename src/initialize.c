@@ -39,7 +39,7 @@ int	is_valid_move(t_vars *vars, double newX, double newY)
 	return (vars->map[(int)(newX)][(int)(newY)] != 1);
 }
 
-void	move(t_vars *vars)
+void	move_w_s(t_vars *vars)
 {
 	if (vars->keys.w)
 	{
@@ -57,6 +57,10 @@ void	move(t_vars *vars)
 			vars->pos_y -= vars->dir_y * vars->move_speed;
 		}
 	}
+}
+
+void	move_a_d(t_vars *vars)
+{
 	if (vars->keys.a)
 	{
 		if (is_valid_move(vars, vars->pos_x - vars->dir_y * vars->move_speed, vars->pos_y + vars->dir_x * vars->move_speed))
@@ -73,6 +77,12 @@ void	move(t_vars *vars)
 			vars->pos_y -= vars->dir_x * vars->move_speed;
 		}
 	}
+}
+
+void	move(t_vars *vars)
+{
+	move_w_s(vars);
+	move_a_d(vars);
 	if (vars->keys.left)
 		rotate_view(vars, vars->rot_speed);
 	if (vars->keys.right)

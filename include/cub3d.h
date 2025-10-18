@@ -34,6 +34,7 @@ typedef struct s_vectors
     double		ray[2];
     double		sidedist[2];
     double		deltadist[2];
+	int			draw[2];
 }	t_vectors;
 
 typedef struct keys

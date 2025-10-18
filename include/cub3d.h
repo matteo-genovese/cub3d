@@ -26,6 +26,16 @@ typedef struct s_mlx_win
 	int endian;
 }				t_mlx_win;
 
+typedef struct s_vectors
+{
+	int			map[2];
+    int			step[2];
+    double		camera[2];
+    double		ray[2];
+    double		sidedist[2];
+    double		deltadist[2];
+}	t_vectors;
+
 typedef struct keys
 {
 	int	w;

@@ -94,15 +94,21 @@ int	main(void)
 	}
 	vars.textures[0].img = img;
 	vars.textures[1].img = mlx_xpm_file_to_image(mlx.mlx, "textures/bricks.xpm", &vars.textures[1].width, &vars.textures[1].height);
+	vars.textures[2].img = mlx_xpm_file_to_image(mlx.mlx, "textures/bricks.xpm", &vars.textures[2].width, &vars.textures[2].height);
+	vars.textures[3].img = mlx_xpm_file_to_image(mlx.mlx, "textures/bricks.xpm", &vars.textures[3].width, &vars.textures[3].height);
 	if (!vars.textures[1].img)
 	{
 		printf("Error: Failed to load texture 'textures/bricks.xpm'\n");
 		exit(EXIT_FAILURE);
 	}
-	vars.textures[1].addr = mlx_get_data_addr(vars.textures[1].img, &vars.textures[1].bits_per_pixel,
-					   &vars.textures[1].line_length, &vars.textures[1].endian);
 	vars.textures[0].addr = mlx_get_data_addr(img, &vars.textures[0].bits_per_pixel,
 					   &vars.textures[0].line_length, &vars.textures[0].endian);
+	vars.textures[1].addr = mlx_get_data_addr(vars.textures[1].img, &vars.textures[1].bits_per_pixel,
+					   &vars.textures[1].line_length, &vars.textures[1].endian);
+	vars.textures[2].addr = mlx_get_data_addr(vars.textures[2].img, &vars.textures[2].bits_per_pixel,
+					   &vars.textures[2].line_length, &vars.textures[2].endian);
+	vars.textures[3].addr = mlx_get_data_addr(vars.textures[3].img, &vars.textures[3].bits_per_pixel,
+					   &vars.textures[3].line_length, &vars.textures[3].endian);
 
 	hooks(&vars);
 	render(&vars);

@@ -1,6 +1,6 @@
 NAME = cub3D
 CC	= cc -std=gnu11
-CFLAGS = -g
+CFLAGS = -g -Wall -Wextra -Werror
 
 INCLUDES = -I ./mlx -I ./include -I ./libft
 LIBS = -L ./mlx -L ./libft ./mlx/libmlx.a ./libft/libft.a -lXext -lX11 -lm

@@ -34,69 +34,49 @@ int	destroy(t_vars *vars)
 	return (0);
 }
 
-/* Key codes for movement
-A: 97
-S: 115
-D: 100
-W: 119
-Left Arrow: 65361
-Right Arrow: 65363
-*/
-
-// int	key_press_handler(int keycode, t_vars *vars)
-// {
-// 	printf("Key pressed: %d\n", keycode);
-// 	if (keycode == 65307)
-// 		destroy(vars);
-// 	if (keycode == 119)
-// 	{
-// 		vars->pos_x += vars->dir_x * vars->move_speed;
-// 		vars->pos_y += vars->dir_y * vars->move_speed;
-// 	}
-// 	if (keycode == 115)
-// 	{
-// 		vars->pos_x -= vars->dir_x * vars->move_speed;
-// 		vars->pos_y -= vars->dir_y * vars->move_speed;
-// 	}
-// 	if (keycode == 97)
-// 	{
-// 		vars->pos_x -= vars->dir_y * vars->move_speed;
-// 		vars->pos_y += vars->dir_x * vars->move_speed;
-// 	}
-// 	if (keycode == 100)
-// 	{
-// 		vars->pos_x += vars->dir_y * vars->move_speed;
-// 		vars->pos_y -= vars->dir_x * vars->move_speed;
-// 	}
-// 	if (keycode == 65361)
-// 		rotate_view(vars, vars->rot_speed);
-// 	if (keycode == 65363)
-// 		rotate_view(vars, -vars->rot_speed);
-// 	render(vars);
-// 	return (0);
-// }
+int	is_valid_move(t_vars *vars, double newX, double newY)
+{
+	if (vars->map[(int)(newX)][(int)(newY)] == 1)
+	{
+		printf("non ci siamo\n");
+		return (0);
+	}
+	return (1);
+}
 
 void	move(t_vars *vars)
 {
 	if (vars->keys.w)
 	{
-		vars->pos_x += vars->dir_x * vars->move_speed;
-		vars->pos_y += vars->dir_y * vars->move_speed;
+		if (is_valid_move(vars, vars->pos_x + vars->dir_x * vars->move_speed, vars->pos_y + vars->dir_y * vars->move_speed))
+		{
+			vars->pos_x += vars->dir_x * vars->move_speed;
+			vars->pos_y += vars->dir_y * vars->move_speed;
+		}
 	}
 	if (vars->keys.s)
 	{
-		vars->pos_x -= vars->dir_x * vars->move_speed;
-		vars->pos_y -= vars->dir_y * vars->move_speed;
+		if (is_valid_move(vars, vars->pos_x - vars->dir_x * vars->move_speed, vars->pos_y - vars->dir_y * vars->move_speed))
+		{
+			vars->pos_x -= vars->dir_x * vars->move_speed;
+			vars->pos_y -= vars->dir_y * vars->move_speed;
+		}
 	}
 	if (vars->keys.a)
 	{
-		vars->pos_x -= vars->dir_y * vars->move_speed;
-		vars->pos_y += vars->dir_x * vars->move_speed;
+		if (is_valid_move(vars, vars->pos_x - vars->dir_y * vars->move_speed, vars->pos_y + vars->dir_x * vars->move_speed))
+		{
+			vars->pos_x -= vars->dir_y * vars->move_speed;
+			vars->pos_y += vars->dir_x * vars->move_speed;
+		}
 	}
 	if (vars->keys.d)
 	{
-		vars->pos_x += vars->dir_y * vars->move_speed;
-		vars->pos_y -= vars->dir_x * vars->move_speed;
+		if (is_valid_move(vars, vars->pos_x + vars->dir_y * vars->move_speed, vars->pos_y - vars->dir_x * vars->move_speed))
+		{
+			vars->pos_x += vars->dir_y * vars->move_speed;
+			vars->pos_y -= vars->dir_x * vars->move_speed;
+		}
 	}
 	if (vars->keys.left)
 		rotate_view(vars, vars->rot_speed);

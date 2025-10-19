@@ -64,7 +64,6 @@ int	main(int argc, char **argv)
 	t_vars		vars;
 	t_input		input;
 	t_map		map;
-	void		*img;
 
 	if (argc != 2)
 	{

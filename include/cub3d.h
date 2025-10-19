@@ -3,6 +3,9 @@
 
 # define S_WIDTH 1080
 # define S_HEIGHT 720
+# define FPS 30
+#define mapWidth 24
+#define mapHeight 24
 
 # include <mlx.h>
 # include <stdlib.h>
@@ -50,12 +53,34 @@ typedef struct s_mlx_win
 {
 	void	*mlx;
 	void	*win;
-	void *img;
-	char *addr;
-	int bits_per_pixel;
-	int line_length;
-	int endian;
+	void 	*img;
+	char 	*addr;
+	int 	bits_per_pixel;
+	int 	line_length;
+	int 	endian;
 }				t_mlx_win;
+
+typedef struct s_vectors
+{
+	int			map[2];
+    int			step[2];
+    double		camera[2];
+    double		ray[2];
+    double		sidedist[2];
+    double		deltadist[2];
+	int			draw[2];
+	int			texture[2];
+}	t_vectors;
+
+typedef struct keys
+{
+	int	w;
+	int	a;
+	int	s;
+	int	d;
+	int	left;
+	int	right;
+}				t_keys;
 
 typedef struct s_image
 {
@@ -70,22 +95,35 @@ typedef struct s_image
 
 typedef struct s_vars
 {
-	t_mlx_win	*mlx;
-	t_image		textures[4];
-	double		pos_x;
-	double		pos_y;
-	double		dir_x;
-	double		dir_y;
-	double		move_speed;
-	double		rot_speed;
-	double		plane[2];
+	t_mlx_win		*mlx;
+	t_image			textures[4];
+	t_keys			keys;
+	char			**map;
+	double			pos_x;
+	double			pos_y;
+	double			dir_x;
+	double			dir_y;
+	double			move_speed;
+	double			rot_speed;
+	double			plane[2];
+	unsigned int	floor_color;
+	unsigned int	ceiling_color;
 }				t_vars;
 
+//TODO VARIABILE GLOBALE STACCA TUTTO
+
+extern int worldMap[mapWidth][mapHeight];
+
 void	init(t_mlx_win *vars);
+void	move(t_vars *vars);
 void	render(t_vars *vars);
 void	hooks(t_vars *vars);
 void	draw_line(t_mlx_win *mlx_win, int beginX, int beginY, int endX, int endY, int color);
 void	my_mlx_pixel_put(t_mlx_win *mlx_win, int x, int y, int color);
+void	draw_vertical_texture(t_vars *vars, int x_side[2],
+		t_vectors v, double perp_wall_dist);
+void	load_map(t_vars *vars, int src[mapWidth][mapHeight]);
+int		destroy(t_vars *vars);
 
 /* UTILS */
 int		ft_exit(int code, char *message, int exit_code);

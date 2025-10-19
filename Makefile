@@ -1,6 +1,6 @@
 NAME = cub3D
 CC	= cc -std=gnu11
-CFLAGS = -g
+CFLAGS = -g -Wall -Wextra -Werror
 
 INCLUDES = -I ./mlx -I ./include -I ./libft
 LIBS = -L ./mlx -L ./libft ./mlx/libmlx.a ./libft/libft.a -lXext -lX11 -lm
@@ -10,7 +10,8 @@ OBJ_DIR = obj/
 INCLUDE_DIR = include/
 LIBFT_DIR = libft/
 
-SRC_FILES = main.c initialize.c dda.c \
+SRC_FILES = main.c init/initialize.c init/map.c \
+			rendering/texture_draw.c rendering/move.c rendering/dda.c \
 			parsing/input.c parsing/parse_settings.c \
 			parsing/parse_helpers.c parsing/parse_color.c \
 			parsing/parse_texture.c parsing/map.c \

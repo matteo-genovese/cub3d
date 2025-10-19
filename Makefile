@@ -10,7 +10,7 @@ OBJ_DIR = obj/
 INCLUDE_DIR = include/
 LIBFT_DIR = libft/
 
-SRC_FILES = main.c initialize.c dda.c map.c texture_draw.c move.c
+SRC_FILES = main.c init/initialize.c rendering/dda.c init/map.c rendering/texture_draw.c rendering/move.c
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
@@ -32,7 +32,7 @@ $(LIBFT):
 	make -C $(LIBFT_DIR)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -I$(INCLUDE_DIR) $(INCLUDES) -c $< -o $@
 
 clean:

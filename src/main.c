@@ -1,32 +1,5 @@
 #include "cub3d.h"
 
-int		worldMap[mapWidth][mapHeight] = {
-	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
-	{1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1},
-	{1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,1,1,0,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,1,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-};
-
 int	render_loop(void *param)
 {
 	t_vars	*vars;
@@ -79,29 +52,59 @@ int	main(int argc, char **argv)
 	mlx.win = NULL;
 	init(&mlx);
 
-	// Initialize vars structure first
 	ft_memset(&vars, 0, sizeof(t_vars));
 	vars.mlx = &mlx;
-	vars.pos_x = 22;
-	vars.pos_y = 11;
-	vars.dir_x = -1;
-	vars.dir_y = 0;
-	vars.plane[0] = 0;
-	vars.plane[1] = 0.66;
+	
+	vars.pos_x = map.player_x + 0.5;
+	vars.pos_y = map.player_y + 0.5;
+	
+	if (map.player_dir == 'N')
+	{
+		vars.dir_x = -1;
+		vars.dir_y = 0;
+		vars.plane[0] = 0;
+		vars.plane[1] = 0.66;
+	}
+	else if (map.player_dir == 'S')
+	{
+		vars.dir_x = 1;
+		vars.dir_y = 0;
+		vars.plane[0] = 0;
+		vars.plane[1] = -0.66;
+	}
+	else if (map.player_dir == 'W')
+	{
+		vars.dir_x = 0;
+		vars.dir_y = 1;
+		vars.plane[0] = 0.66;
+		vars.plane[1] = 0;
+	}
+	else if (map.player_dir == 'E')
+	{
+		vars.dir_x = 0;
+		vars.dir_y = -1;
+		vars.plane[0] = -0.66;
+		vars.plane[1] = 0;
+	}
+	
 	vars.move_speed = 0.1;
 	vars.keys.right = 0;
 	vars.keys.left = 0;
-	vars.ceiling_color = 0x87CEEB; // Light blue
-	vars.floor_color = 0x228B22;   // Forest green
-	load_map(&vars, worldMap);
+	
+	// Usa i colori dalla struttura input parsata
+	vars.ceiling_color = (input.ceiling.r << 16) | (input.ceiling.g << 8) | input.ceiling.b;
+	vars.floor_color = (input.floor.r << 16) | (input.floor.g << 8) | input.floor.b;
+	
+	vars.map = map.map;
 
-	vars.textures[0].img = mlx_xpm_file_to_image(mlx.mlx, "textures/bricks.xpm", &vars.textures[0].width, &vars.textures[0].height);
-	vars.textures[1].img = mlx_xpm_file_to_image(mlx.mlx, "textures/bricks.xpm", &vars.textures[1].width, &vars.textures[1].height);
-	vars.textures[2].img = mlx_xpm_file_to_image(mlx.mlx, "textures/bricks.xpm", &vars.textures[2].width, &vars.textures[2].height);
-	vars.textures[3].img = mlx_xpm_file_to_image(mlx.mlx, "textures/bricks.xpm", &vars.textures[3].width, &vars.textures[3].height);
-	if (!vars.textures[1].img)
+	vars.textures[0].img = mlx_xpm_file_to_image(mlx.mlx, input.path_no, &vars.textures[0].width, &vars.textures[0].height);
+	vars.textures[1].img = mlx_xpm_file_to_image(mlx.mlx, input.path_so, &vars.textures[1].width, &vars.textures[1].height);
+	vars.textures[2].img = mlx_xpm_file_to_image(mlx.mlx, input.path_ea, &vars.textures[2].width, &vars.textures[2].height);
+	vars.textures[3].img = mlx_xpm_file_to_image(mlx.mlx, input.path_we, &vars.textures[3].width, &vars.textures[3].height);
+	if (!vars.textures[0].img || !vars.textures[1].img || 
+		!vars.textures[2].img || !vars.textures[3].img)
 	{
-		printf("Error: Failed to load texture 'textures/bricks.xpm'\n");
+		printf("Error: Failed to load textures\n");
 		exit(EXIT_FAILURE);
 	}
 	vars.textures[0].addr = mlx_get_data_addr(vars.textures[0].img, &vars.textures[0].bits_per_pixel,

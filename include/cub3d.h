@@ -4,8 +4,6 @@
 # define S_WIDTH 1080
 # define S_HEIGHT 720
 # define FPS 30
-#define mapWidth 24
-#define mapHeight 24
 
 # include <mlx.h>
 # include <stdlib.h>
@@ -110,10 +108,6 @@ typedef struct s_vars
 	unsigned int	ceiling_color;
 }				t_vars;
 
-//TODO VARIABILE GLOBALE STACCA TUTTO
-
-extern int worldMap[mapWidth][mapHeight];
-
 void	init(t_mlx_win *vars);
 void	move(t_vars *vars);
 void	render(t_vars *vars);
@@ -122,7 +116,6 @@ void	draw_line(t_mlx_win *mlx_win, int beginX, int beginY, int endX, int endY, i
 void	my_mlx_pixel_put(t_mlx_win *mlx_win, int x, int y, int color);
 void	draw_vertical_texture(t_vars *vars, int x_side[2],
 		t_vectors v, double perp_wall_dist);
-void	load_map(t_vars *vars, int src[mapWidth][mapHeight]);
 int		destroy(t_vars *vars);
 
 /* UTILS */

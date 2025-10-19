@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 19:45:17 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/10/18 19:48:03 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/10/19 17:46:06 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_valid_move(t_vars *vars, double newX, double newY)
 {
-	return (vars->map[(int)(newX)][(int)(newY)] != 1);
+	return (vars->map[(int)(newX)][(int)(newY)] != '1');
 }
 
 void	rotate_view(t_vars *vars, double angle)

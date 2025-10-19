@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 19:36:15 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/10/18 19:39:37 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/10/19 17:46:05 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	vectors_setup(t_vars *vars, t_vectors *v, int i)
 /*
  * Performs the DDA algorithm to find the wall hit
  */
-void	perform_dda(t_vectors v, int *side, double *perp_wall_dist)
+void	perform_dda(t_vars *vars, t_vectors v, int *side, double *perp_wall_dist)
 {
 	int	hit;
 	int	dir;
@@ -102,7 +102,7 @@ void	perform_dda(t_vectors v, int *side, double *perp_wall_dist)
 		*side = 0 + 2 * dir;
 		if (v.step[dir] > 0)
 			*side = 1 + 2 * dir;
-		if (worldMap[v.map[0]][v.map[1]] > 0)
+		if (vars->map[v.map[0]][v.map[1]] == '1')
 			hit = 1;
 	}
 	*perp_wall_dist = (v.sidedist[1] - v.deltadist[1]);
@@ -134,7 +134,7 @@ void	render(t_vars *vars)
 	while (i < S_WIDTH)
 	{
 		vectors_setup(vars, &v, i);
-		perform_dda(v, &side, &perp_wall_dist);
+		perform_dda(vars, v, &side, &perp_wall_dist);
 		line_height = (int)(S_HEIGHT / perp_wall_dist);
 		v.draw[0] = -line_height / 2 + S_HEIGHT / 2;
 		v.draw[1] = line_height / 2 + S_HEIGHT / 2;

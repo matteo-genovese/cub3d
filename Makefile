@@ -10,7 +10,7 @@ OBJ_DIR = obj/
 INCLUDE_DIR = include/
 LIBFT_DIR = libft/
 
-SRC_FILES = main.c init/initialize.c init/map.c \
+SRC_FILES = main.c init/initialize.c \
 			rendering/texture_draw.c rendering/move.c rendering/dda.c \
 			parsing/input.c parsing/parse_settings.c \
 			parsing/parse_helpers.c parsing/parse_color.c \

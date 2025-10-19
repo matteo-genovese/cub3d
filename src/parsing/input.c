@@ -1,0 +1,98 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
+/*   Updated: 2025/10/17 17:50:49 by mgenoves         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3d.h"
+#include <fcntl.h>
+
+static int	is_empty_line(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static int	try_parse_setting(char *line, t_input *input)
+{
+	int	result;
+
+	result = parse_no_so(line, input);
+	if (result != -1)
+		return (result);
+	result = parse_we_ea(line, input);
+	if (result != -1)
+		return (result);
+	result = parse_floor_ceiling(line, input);
+	if (result != -1)
+		return (result);
+	return (-1);
+}
+
+static int	process_line(char *line, t_input *input)
+{
+	int	result;
+
+	if (is_empty_line(line))
+		return (0);
+	result = try_parse_setting(line, input);
+	if (result == -1)
+	{
+		if (all_settings_found(input) && is_map_line(line))
+			return (2);
+		return (ft_error("Invalid line or incomplete settings\n"));
+	}
+	return (result);
+}
+
+static int	read_settings(int fd, t_input *input)
+{
+	char	*line;
+	int		result;
+
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		result = process_line(line, input);
+		free(line);
+		if (result != 0)
+		{
+			if (result == 2)
+				return (0);
+			return (1);
+		}
+	}
+	if (!all_settings_found(input))
+		return (ft_error("Missing required settings\n"));
+	return (0);
+}
+
+int	parse_input(char *file_path, t_input *input)
+{
+	int	fd;
+	int	result;
+
+	init_input(input);
+	fd = open(file_path, O_RDONLY);
+	if (fd == -1)
+		return (ft_error("Failed to open file\n"));
+	result = read_settings(fd, input);
+	close(fd);
+	return (result);
+}

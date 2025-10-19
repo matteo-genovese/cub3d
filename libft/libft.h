@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 19:02:01 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/10/17 11:20:04 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/10/17 16:40:49 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define LIBFT_H
 # include <stdlib.h>
 # include <unistd.h>
+
+# include "get_next_line.h"
 
 size_t	ft_strlen(const char *s);
 void	*ft_memset(void *s, int c, size_t n);

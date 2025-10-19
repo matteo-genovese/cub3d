@@ -23,11 +23,23 @@ int	render_loop(void *param)
 	return (0);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_mlx_win	mlx;
 	t_vars		vars;
+	t_input		input;
+	t_map		map;
 	void		*img;
+
+	if (argc != 2)
+	{
+		printf("Usage: %s <map_file>.cub\n", argv[0]);
+		exit(EXIT_FAILURE);
+	}
+	if (parse_input(argv[1], &input))
+		exit(EXIT_FAILURE);
+	if (parse_map(argv[1], &map))
+		exit(EXIT_FAILURE);
 
 	mlx.mlx = NULL;
 	mlx.win = NULL;

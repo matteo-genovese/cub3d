@@ -9,7 +9,42 @@
 # include <unistd.h>
 # include <math.h>
 # include <stdio.h>
-#include <sys/time.h>
+# include <sys/time.h>
+
+#include "libft.h"
+
+typedef struct s_color
+{
+	int	r;
+	int	g;
+	int	b;
+}	t_color;
+
+typedef struct s_input
+{
+	char	*path_no;
+	char	*path_so;
+	char	*path_we;
+	char	*path_ea;
+	t_color	floor;
+	t_color	ceiling;
+	int		has_no;
+	int		has_so;
+	int		has_we;
+	int		has_ea;
+	int		has_floor;
+	int		has_ceiling;
+}	t_input;
+
+typedef struct s_map
+{
+	int		width;
+	int		height;
+	char	**map;
+	int		player_x;
+	int		player_y;
+	char	player_dir;
+}	t_map;
 
 typedef struct s_mlx_win
 {
@@ -51,5 +86,29 @@ void	render(t_vars *vars);
 void	hooks(t_vars *vars);
 void	draw_line(t_mlx_win *mlx_win, int beginX, int beginY, int endX, int endY, int color);
 void	my_mlx_pixel_put(t_mlx_win *mlx_win, int x, int y, int color);
+
+/* UTILS */
+int		ft_exit(int code, char *message, int exit_code);
+int		ft_error(char *message);
+char	*skip_whitespace(char *str);
+
+/* PARSING */
+int		parse_input(char *file_path, t_input *input);
+int		parse_map(char *file_path, t_map *map);
+int		is_map_line(char *line);
+int		parse_color(char *line, t_color *color);
+char	*parse_texture_path(char *line);
+int		validate_map(t_map *map);
+int		find_player(t_map *map);
+int		check_walls(t_map *map);
+int		parse_no_so(char *line, t_input *input);
+int		parse_we_ea(char *line, t_input *input);
+int		parse_floor_ceiling(char *line, t_input *input);
+int		all_settings_found(t_input *input);
+void	init_input(t_input *input);
+void	skip_to_map(int fd);
+t_list	*read_map_lines(int fd);
+int		get_max_width(t_list *map_lines);
+void	init_map_struct(t_map *map, t_list *map_lines);
 
 #endif

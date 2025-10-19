@@ -10,7 +10,13 @@ OBJ_DIR = obj/
 INCLUDE_DIR = include/
 LIBFT_DIR = libft/
 
-SRC_FILES = main.c initialize.c dda.c
+SRC_FILES = main.c initialize.c dda.c \
+			parsing/input.c parsing/parse_settings.c \
+			parsing/parse_helpers.c parsing/parse_color.c \
+			parsing/parse_texture.c parsing/map.c \
+			parsing/map_read.c parsing/map_validate.c \
+			parsing/map_check.c utils/escape.c utils/error.c
+
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
@@ -32,7 +38,7 @@ $(LIBFT):
 	make -C $(LIBFT_DIR)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -I$(INCLUDE_DIR) $(INCLUDES) -c $< -o $@
 
 clean:

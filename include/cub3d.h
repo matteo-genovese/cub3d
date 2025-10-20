@@ -141,5 +141,6 @@ void	skip_to_map(int fd);
 t_list	*read_map_lines(int fd);
 int		get_max_width(t_list *map_lines);
 void	init_map_struct(t_map *map, t_list *map_lines);
+void	free_map_array(char **map, int i);
 
 #endif

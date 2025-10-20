@@ -48,6 +48,7 @@ int	main(int argc, char **argv)
 	if (parse_map(argv[1], &map))
 		exit(EXIT_FAILURE);
 
+	mlx = (t_mlx_win){0};
 	mlx.mlx = NULL;
 	mlx.win = NULL;
 	init(&mlx);
@@ -96,6 +97,7 @@ int	main(int argc, char **argv)
 	vars.floor_color = (input.floor.r << 16) | (input.floor.g << 8) | input.floor.b;
 	
 	vars.map = map.map;
+	// free_map_array(map.map, map.height);
 
 	vars.textures[0].img = mlx_xpm_file_to_image(mlx.mlx, input.path_no, &vars.textures[0].width, &vars.textures[0].height);
 	vars.textures[1].img = mlx_xpm_file_to_image(mlx.mlx, input.path_so, &vars.textures[1].width, &vars.textures[1].height);
@@ -120,5 +122,6 @@ int	main(int argc, char **argv)
 	render(&vars);
 	mlx_loop_hook(mlx.mlx, render_loop, &vars);
 	mlx_loop(mlx.mlx);
+	free_map_array(vars.map, map.height);
 	return 0;
 }

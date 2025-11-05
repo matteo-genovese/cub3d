@@ -122,6 +122,6 @@ int	main(int argc, char **argv)
 	render(&vars);
 	mlx_loop_hook(mlx.mlx, render_loop, &vars);
 	mlx_loop(mlx.mlx);
-	free_map_array(vars.map, map.height);
+	// free_map_array(vars.map, map.height);
 	return 0;
 }

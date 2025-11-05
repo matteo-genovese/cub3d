@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/10/20 15:46:59 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:37:13 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,13 @@ int	parse_input(char *file_path, t_input *input)
 {
 	int	fd;
 	int	result;
+	int	len;
 
 	init_input(input);
+	len = ft_strlen(file_path);
+	if (file_path[len - 4] != '.' || file_path[len - 3] != 'c' ||
+		file_path[len - 2] != 'u' || file_path[len - 1] != 'b')
+		return (ft_error("File must have a .cub extension\n"));
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
 		return (ft_error("Failed to open file\n"));

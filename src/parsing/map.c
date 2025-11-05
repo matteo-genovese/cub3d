@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/10/20 16:32:14 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/10/21 12:29:09 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,10 @@ static void	free_map_lines(t_list *map_lines)
 	{
 		next = current->next;
 		free(current->content);
-		if (current)
-			free(current);
+		free(current);
 		current = next;
 	}
-	free(map_lines);
+	// free(map_lines);
 }
 
 int	parse_map(char *file_path, t_map *map)

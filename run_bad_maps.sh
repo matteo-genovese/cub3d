@@ -18,7 +18,7 @@ if [ ! -d "$MAP_DIR" ]; then
   exit 1
 fi
 
-printf "=== Test run started: %s ===\n\n" "$(date)" >> "$RESULTS"
+printf "=== BAD MAPS Test run started: %s ===\n\n" "$(date)" >> "$RESULTS"
 
 # itera in modo sicuro su tutti i file nella directory (ordinati)
 while IFS= read -r -d '' map; do

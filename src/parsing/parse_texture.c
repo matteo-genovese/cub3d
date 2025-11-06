@@ -6,12 +6,24 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/10/17 17:50:51 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/06 12:51:02 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <fcntl.h>
+
+int	check_texture_format(char *path)
+{
+	size_t	len;
+
+	len = ft_strlen(path);
+	if (len < 4)
+		return (-1);
+	if (ft_strncmp(path + len - 4, ".xpm", 4) != 0)
+		return (-1);
+	return (0);
+}
 
 static char	*trim_path(char *str)
 {
@@ -40,13 +52,15 @@ char	*parse_texture_path(char *line)
 		return (NULL);
 	}
 	fd = open(path, O_RDONLY);
-	if (fd == -1)
+	if (fd == -1 || check_texture_format(path) == -1)
 	{
 		free(path);
-		ft_error("Texture file not found\n");
+		if (fd == -1)
+			ft_error("Texture file not found\n");
+		else 
+			ft_error("Invalid texture format (must be .xpm)\n");
 		return (NULL);
 	}
 	close(fd);
 	return (path);
 }
-

@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/05 16:37:13 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/06 12:47:48 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static int	process_line(char *line, t_input *input)
 
 	if (is_empty_line(line))
 		return (0);
-	// ft_strtrim()
 	result = try_parse_setting(line, input);
 	if (result == -1)
 	{

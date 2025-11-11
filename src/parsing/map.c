@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/06 12:55:07 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/11 09:58:36 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ static void	free_map_lines(t_list *map_lines)
 		free(current);
 		current = next;
 	}
-	// free(map_lines);
 }
 
 int	parse_map(char *file_path, t_map *map)

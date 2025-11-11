@@ -1,8 +1,4 @@
-=== Test run started: mer 5 nov 2025, 16:37:47, CET ===
-
-=== MAP: ./maps/bad/forbidden.cub ===
-Command: timeout 3s ./cub3D ./maps/bad/forbidden.cub
-[TIMEOUT dopo 3s]
+=== BAD MAPS Test run started: mar 11 nov 2025, 10:52:18, CET ===
 
 === MAP: ./maps/bad/map_missing.cub ===
 Command: timeout 3s ./cub3D ./maps/bad/map_missing.cub
@@ -10,24 +6,9 @@ free(): double free detected in tcache 2
 timeout: the monitored command dumped core
 [exit code: 134]
 
-=== MAP: ./maps/bad/textures_forbidden.cub ===
-Command: timeout 3s ./cub3D ./maps/bad/textures_forbidden.cub
-[TIMEOUT dopo 3s]
+=== Test run finished: mar 11 nov 2025, 10:52:22, CET ===
 
-
-=== Test run finished: mer 5 nov 2025, 16:38:00, CET ===
-
-=== GOOD MAPS Test run started: mer 5 nov 2025, 16:45:11, CET ===
-
-=== MAP: ./maps/good/library.cub ===
-Command: timeout 3s ./cub3D ./maps/good/library.cub
-timeout: the monitored command dumped core
-[ERROR exit code: 139]
-
-=== MAP: ./maps/good/subject_map.cub ===
-Command: timeout 3s ./cub3D ./maps/good/subject_map.cub
-timeout: the monitored command dumped core
-[ERROR exit code: 139]
+=== GOOD MAPS Test run started: mar 11 nov 2025, 10:52:22, CET ===
 
 === MAP: ./maps/good/test_map_hole.cub ===
 Command: timeout 3s ./cub3D ./maps/good/test_map_hole.cub
@@ -35,25 +16,11 @@ Error
 Map not surrounded by walls
 [ERROR exit code: 1]
 
-=== MAP: ./maps/good/test_pos_bottom.cub ===
-Command: timeout 3s ./cub3D ./maps/good/test_pos_bottom.cub
-timeout: the monitored command dumped core
-[ERROR exit code: 139]
-
-=== MAP: ./maps/good/test_pos_left.cub ===
-Command: timeout 3s ./cub3D ./maps/good/test_pos_left.cub
-[TIMEOUT dopo 3s]
-
-=== MAP: ./maps/good/test_pos_right.cub ===
-Command: timeout 3s ./cub3D ./maps/good/test_pos_right.cub
-timeout: the monitored command dumped core
-[ERROR exit code: 139]
-
 === MAP: ./maps/good/test_whitespace.cub ===
 Command: timeout 3s ./cub3D ./maps/good/test_whitespace.cub
 Error
 Invalid line or incomplete settings
 [ERROR exit code: 1]
 
-=== GOOD MAPS Test run finished: mer 5 nov 2025, 16:45:46, CET ===
+=== GOOD MAPS Test run finished: mar 11 nov 2025, 10:53:08, CET ===
 Failures: 17

@@ -56,8 +56,8 @@ int	main(int argc, char **argv)
 	ft_memset(&vars, 0, sizeof(t_vars));
 	vars.mlx = &mlx;
 	
-	vars.pos_x = map.player_x + 0.5;
-	vars.pos_y = map.player_y + 0.5;
+	vars.pos_x = map.player_y + 0.5;
+	vars.pos_y = map.player_x + 0.5;
 	
 	if (map.player_dir == 'N')
 	{

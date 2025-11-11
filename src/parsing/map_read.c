@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/10/17 17:50:51 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:06:25 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void	skip_to_map(int fd)
 	settings_count = 0;
 	while (settings_count < 6)
 	{
+		printf("Skipping non-map lines...\n");
 		line = get_next_line(fd);
+		printf("Skipping line: %s", line);
 		if (!line)
 			return ;
 		if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0

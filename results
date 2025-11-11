@@ -14,9 +14,6 @@ timeout: the monitored command dumped core
 Command: timeout 3s ./cub3D ./maps/bad/textures_forbidden.cub
 [TIMEOUT dopo 3s]
 
-=== MAP: ./maps/bad/textures_not_xpm.cub ===
-Command: timeout 3s ./cub3D ./maps/bad/textures_not_xpm.cub
-[TIMEOUT dopo 3s]
 
 === Test run finished: mer 5 nov 2025, 16:38:00, CET ===
 

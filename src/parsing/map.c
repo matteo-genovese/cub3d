@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/11 09:58:36 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/11 11:01:35 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	parse_map(char *file_path, t_map *map)
 	skip_to_map(fd);
 	map_lines = read_map_lines(fd);
 	close(fd);
-	if (!map_lines)
+	if (!map_lines || map_lines == NULL)
 		return (ft_error("No map found in file\n"));
 	init_map_struct(map, map_lines);
 	map->map = convert_list_to_array(map_lines, map->height, map->width);

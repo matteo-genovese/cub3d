@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 19:40:15 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/11/23 17:28:51 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:39:23 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,25 @@ int	key_release_handler(int keycode, t_vars *vars)
 	return (0);
 }
 
+static void	destroy_textures(t_vars *vars)
+{
+    int	i;
+
+    if (!vars || !vars->mlx || !vars->mlx->mlx)
+        return;
+    i = 0;
+    while (i < 4)
+    {
+        if (vars->textures[i].img)
+        {
+            mlx_destroy_image(vars->mlx->mlx, vars->textures[i].img);
+            vars->textures[i].img = NULL;
+            vars->textures[i].addr = NULL;
+        }
+        i++;
+    }
+}
+
 int	destroy(t_vars *vars)
 {
     if (vars->map)
@@ -59,12 +78,17 @@ int	destroy(t_vars *vars)
         vars->map = NULL;
         vars->map_height = 0;
     }
+    destroy_textures(vars);
     if (vars->mlx)
     {
         if (vars->mlx->mlx)
         {
             if (vars->mlx->img)
+            {
                 mlx_destroy_image(vars->mlx->mlx, vars->mlx->img);
+                vars->mlx->img = NULL;
+                vars->mlx->addr = NULL;
+            }
             if (vars->mlx->win)
                 mlx_destroy_window(vars->mlx->mlx, vars->mlx->win);
             mlx_destroy_display(vars->mlx->mlx);

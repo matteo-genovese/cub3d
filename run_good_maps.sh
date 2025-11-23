@@ -22,21 +22,24 @@ printf "\n=== GOOD MAPS Test run started: %s ===\n\n" "$(date)" >> "$RESULTS"
 failures=0
 
 while IFS= read -r -d '' map; do
-  printf "=== MAP: %s ===\n" "$map" >> "$RESULTS"
-  printf "Command: timeout 3s %s %s\n" "$CUB" "$map" >> "$RESULTS"
-  timeout 3s "$CUB" "$map" >> "$RESULTS" 2>&1
+  # cattura output in variabile temporanea
+  output=$(timeout 3s "$CUB" "$map" 2>&1)
   rc=$?
+  # salva solo se il programma si comporta correttamente (exit code 0 per good map)
   if [ $rc -eq 0 ]; then
+    printf "=== MAP: %s ===\n" "$map" >> "$RESULTS"
+    printf "Command: timeout 3s %s %s\n" "$CUB" "$map" >> "$RESULTS"
+    echo "$output" >> "$RESULTS"
     printf "[OK exit code: 0]\n" >> "$RESULTS"
+    printf "\n" >> "$RESULTS"
   else
     if [ $rc -eq 124 ]; then
-      printf "[TIMEOUT dopo 3s]\n" >> "$RESULTS"
+      : # timeout, non salva
     else
-      printf "[ERROR exit code: %d]\n" "$rc" >> "$RESULTS"
+      : # errore, non salva
     fi
     failures=$((failures+1))
   fi
-  printf "\n" >> "$RESULTS"
 done < <(find "$MAP_DIR" -type f -print0 | sort -z)
 
 printf "=== GOOD MAPS Test run finished: %s ===\n" "$(date)" >> "$RESULTS"

@@ -22,17 +22,17 @@ printf "=== BAD MAPS Test run started: %s ===\n\n" "$(date)" >> "$RESULTS"
 
 # itera in modo sicuro su tutti i file nella directory (ordinati)
 while IFS= read -r -d '' map; do
-  printf "=== MAP: %s ===\n" "$map" >> "$RESULTS"
-  printf "Command: timeout 3s %s %s\n" "$CUB" "$map" >> "$RESULTS"
-  # esegue con timeout di 3 secondi, cattura stdout+stderr
-  timeout 3s "$CUB" "$map" >> "$RESULTS" 2>&1
+  # cattura output in variabile temporanea
+  output=$(timeout 3s "$CUB" "$map" 2>&1)
   rc=$?
-  if [ $rc -eq 124 ]; then
-    printf "[TIMEOUT dopo 3s]\n" >> "$RESULTS"
-  else
-    printf "[exit code: %d]\n" "$rc" >> "$RESULTS"
+  # salva solo se il programma si comporta MALE (NON restituisce errore per bad map)
+  if [ $rc -eq 0 ]; then
+    printf "=== MAP: %s ===\n" "$map" >> "$RESULTS"
+    printf "Command: timeout 3s %s %s\n" "$CUB" "$map" >> "$RESULTS"
+    echo "$output" >> "$RESULTS"
+    printf "[ERRORE: bad map accettata con exit code: 0]\n" >> "$RESULTS"
+    printf "\n" >> "$RESULTS"
   fi
-  printf "\n" >> "$RESULTS"
 done < <(find "$MAP_DIR" -type f -print0 | sort -z)
 
-printf "=== Test run finished: %s ===\n" "$(date)" >> "$RESULTS"
+printf "=== BAD MAPS Test run finished: %s ===\n" "$(date)" >> "$RESULTS"

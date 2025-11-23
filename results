@@ -1,10 +1,8 @@
-=== GOOD MAPS Test run started: dom 23 nov 2025, 15:44:22, CET ===
+=== BAD MAPS Test run started: dom 23 nov 2025, 18:06:06, CET ===
 
-=== MAP: ./maps/good/test_map_hole.cub ===
-Command: timeout 3s ./cub3D ./maps/good/test_map_hole.cub
-Error
-Map not surrounded by walls
-[ERROR exit code: 1]
+=== Test run finished: dom 23 nov 2025, 18:06:11, CET ===
 
-=== GOOD MAPS Test run finished: dom 23 nov 2025, 15:45:10, CET ===
+=== GOOD MAPS Test run started: dom 23 nov 2025, 18:06:34, CET ===
+
+=== GOOD MAPS Test run finished: dom 23 nov 2025, 18:07:25, CET ===
 Failures: 17

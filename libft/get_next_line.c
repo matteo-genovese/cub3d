@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 17:20:17 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/10/17 11:13:25 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 15:40:04 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ char	*get_next_line(int fd)
 	if ((!line || line[0] == '\0') && bytes_read == 0)
 	{
 		if (left_o)
+		{
 			free(left_o);
+			left_o = NULL;
+		}
 		return (NULL);
 	}
 	return (line);

@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/11 16:15:21 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 15:18:57 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,17 @@ static int	read_settings(int fd, t_input *input)
 {
 	char	*line;
 	int		result;
+	char	*trimmed_line;
 
 	while (1)
 	{
 		line = get_next_line(fd);
-		if (!line)
-			break ;
-		result = process_line(line, input);
+		trimmed_line = ft_strtrim(line, " \t\n");
 		free(line);
+		if (!trimmed_line)
+			break ;
+		result = process_line(trimmed_line, input);
+		free(trimmed_line);
 		if (result != 0)
 		{
 			if (result == 2)
@@ -91,8 +94,8 @@ int	parse_input(char *file_path, t_input *input)
 
 	init_input(input);
 	len = ft_strlen(file_path);
-	if (file_path[len - 4] != '.' || file_path[len - 3] != 'c' ||
-		file_path[len - 2] != 'u' || file_path[len - 1] != 'b')
+	if (file_path[len - 4] != '.' || file_path[len - 3] != 'c'
+		|| file_path[len - 2] != 'u' || file_path[len - 1] != 'b')
 		return (ft_error("File must have a .cub extension\n"));
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)

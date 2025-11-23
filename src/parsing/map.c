@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/11 11:01:35 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 15:58:45 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,15 @@ static void	fill_line_with_spaces(char *dest, char *src, int width)
 		len--;
 	while (i < len)
 	{
-		dest[i] = src[i];
+		if (src[i] == ' ' || src[i] == '\t')
+			dest[i] = '1';
+		else
+			dest[i] = src[i];
 		i++;
 	}
 	while (i < width)
 	{
-		dest[i] = ' ';
+		dest[i] = '1';
 		i++;
 	}
 	dest[i] = '\0';

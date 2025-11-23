@@ -1,14 +1,4 @@
-=== BAD MAPS Test run started: mar 11 nov 2025, 10:52:18, CET ===
-
-=== MAP: ./maps/bad/map_missing.cub ===
-Command: timeout 3s ./cub3D ./maps/bad/map_missing.cub
-free(): double free detected in tcache 2
-timeout: the monitored command dumped core
-[exit code: 134]
-
-=== Test run finished: mar 11 nov 2025, 10:52:22, CET ===
-
-=== GOOD MAPS Test run started: mar 11 nov 2025, 10:52:22, CET ===
+=== GOOD MAPS Test run started: dom 23 nov 2025, 15:44:22, CET ===
 
 === MAP: ./maps/good/test_map_hole.cub ===
 Command: timeout 3s ./cub3D ./maps/good/test_map_hole.cub
@@ -16,11 +6,5 @@ Error
 Map not surrounded by walls
 [ERROR exit code: 1]
 
-=== MAP: ./maps/good/test_whitespace.cub ===
-Command: timeout 3s ./cub3D ./maps/good/test_whitespace.cub
-Error
-Invalid line or incomplete settings
-[ERROR exit code: 1]
-
-=== GOOD MAPS Test run finished: mar 11 nov 2025, 10:53:08, CET ===
+=== GOOD MAPS Test run finished: dom 23 nov 2025, 15:45:10, CET ===
 Failures: 17

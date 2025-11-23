@@ -12,7 +12,7 @@ int	render_loop(void *param)
 	gettimeofday(&ctv, NULL);
 
 	double delta = (ctv.tv_sec - ptv.tv_sec) + (ctv.tv_usec - ptv.tv_usec) / 1000000.0;
-	
+
 	if (delta >= 1.0/FPS)
 	{
 		vars->move_speed = delta * 3.0;
@@ -55,10 +55,10 @@ int	main(int argc, char **argv)
 
 	ft_memset(&vars, 0, sizeof(t_vars));
 	vars.mlx = &mlx;
-	
+
 	vars.pos_x = map.player_y + 0.5;
 	vars.pos_y = map.player_x + 0.5;
-	
+
 	if (map.player_dir == 'N')
 	{
 		vars.dir_x = -1;
@@ -87,15 +87,15 @@ int	main(int argc, char **argv)
 		vars.plane[0] = -0.66;
 		vars.plane[1] = 0;
 	}
-	
+
 	vars.move_speed = 0.1;
 	vars.keys.right = 0;
 	vars.keys.left = 0;
-	
+
 	// Usa i colori dalla struttura input parsata
 	vars.ceiling_color = (input.ceiling.r << 16) | (input.ceiling.g << 8) | input.ceiling.b;
 	vars.floor_color = (input.floor.r << 16) | (input.floor.g << 8) | input.floor.b;
-	
+
 	vars.map = map.map;
 	// free_map_array(map.map, map.height);
 

@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/11 10:55:15 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 15:42:40 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	skip_to_map(int fd)
 {
 	char	*line;
+	char	*trimmed;
 	int		settings_count;
 
 	settings_count = 0;
@@ -23,11 +24,15 @@ void	skip_to_map(int fd)
 		line = get_next_line(fd);
 		if (!line)
 			return ;
-		if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0
-			|| ft_strncmp(line, "WE ", 3) == 0
-			|| ft_strncmp(line, "EA ", 3) == 0
-			|| ft_strncmp(line, "F ", 2) == 0
-			|| ft_strncmp(line, "C ", 2) == 0)
+		trimmed = line;
+		while (*trimmed == ' ' || *trimmed == '\t')
+			trimmed++;
+		if (ft_strncmp(trimmed, "NO ", 3) == 0
+			|| ft_strncmp(trimmed, "SO ", 3) == 0
+			|| ft_strncmp(trimmed, "WE ", 3) == 0
+			|| ft_strncmp(trimmed, "EA ", 3) == 0
+			|| ft_strncmp(trimmed, "F ", 2) == 0
+			|| ft_strncmp(trimmed, "C ", 2) == 0)
 			settings_count++;
 		free(line);
 	}

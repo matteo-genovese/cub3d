@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/23 17:53:33 by mgenoves          #+#    #+#             */
+/*   Updated: 2025/11/23 17:57:34 by mgenoves         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -11,8 +23,7 @@
 # include <math.h>
 # include <stdio.h>
 # include <sys/time.h>
-
-#include "libft.h"
+# include "libft.h"
 
 typedef struct s_color
 {
@@ -45,33 +56,33 @@ typedef struct s_map
 	int		player_x;
 	int		player_y;
 	char	player_dir;
-	int				map_height;
+	int		map_height;
 }	t_map;
 
 typedef struct s_mlx_win
 {
 	void	*mlx;
 	void	*win;
-	void 	*img;
-	char 	*addr;
-	int 	bits_per_pixel;
-	int 	line_length;
-	int 	endian;
-}				t_mlx_win;
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_mlx_win;
 
 typedef struct s_vectors
 {
 	int			map[2];
-    int			step[2];
-    double		camera[2];
-    double		ray[2];
-    double		sidedist[2];
-    double		deltadist[2];
+	int			step[2];
+	double		camera[2];
+	double		ray[2];
+	double		sidedist[2];
+	double		deltadist[2];
 	int			draw[2];
 	int			texture[2];
 }	t_vectors;
 
-typedef struct keys
+typedef struct s_keys
 {
 	int	w;
 	int	a;
@@ -79,7 +90,7 @@ typedef struct keys
 	int	d;
 	int	left;
 	int	right;
-}				t_keys;
+}	t_keys;
 
 typedef struct s_image
 {
@@ -90,7 +101,7 @@ typedef struct s_image
 	int		endian;
 	int		width;
 	int		height;
-}				t_image;
+}	t_image;
 
 typedef struct s_vars
 {
@@ -108,16 +119,15 @@ typedef struct s_vars
 	unsigned int	floor_color;
 	unsigned int	ceiling_color;
 	int				map_height;
-}				t_vars;
+}	t_vars;
 
 void	init(t_mlx_win *vars);
 void	move(t_vars *vars);
 void	render(t_vars *vars);
 void	hooks(t_vars *vars);
-void	draw_line(t_mlx_win *mlx_win, int beginX, int beginY, int endX, int endY, int color);
 void	my_mlx_pixel_put(t_mlx_win *mlx_win, int x, int y, int color);
 void	draw_vertical_texture(t_vars *vars, int x_side[2],
-		t_vectors v, double perp_wall_dist);
+			t_vectors v, double perp_wall_dist);
 int		destroy(t_vars *vars);
 
 /* UTILS */
@@ -146,5 +156,6 @@ void	init_map_struct(t_map *map, t_list *map_lines);
 void	free_map_array(char **map, int i);
 void	clear_map(t_map *map);
 void	free_input(t_input *input);
+int		is_empty_line(char *line);
 
 #endif

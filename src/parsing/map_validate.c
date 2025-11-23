@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/23 17:34:30 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:50:24 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,11 @@ void	free_input(t_input *input)
 	input->has_ea = 0;
 	input->has_floor = 0;
 	input->has_ceiling = 0;
+}
+
+void	free_map_array(char **map, int i)
+{
+	while (i > 0)
+		free(map[--i]);
+	free(map);
 }

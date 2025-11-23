@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/10/17 17:50:51 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:49:38 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ char	*skip_whitespace(char *str)
 
 int	is_map_char(char c)
 {
-	return (c == '0' || c == '1' || c == ' ' || c == '\t'
-		|| c == 'N' || c == 'S' || c == 'E' || c == 'W');
+	return (c == '0' || c == '1' || c == ' '
+		|| c == '\t' || c == 'N' || c == 'S'
+		|| c == 'E' || c == 'W');
 }
 
 int	is_map_line(char *line)
@@ -44,4 +45,3 @@ int	is_map_line(char *line)
 	}
 	return (has_content);
 }
-

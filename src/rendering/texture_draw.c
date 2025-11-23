@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_draw.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 19:39:21 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/10/18 19:39:52 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:52:06 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,14 @@ void	draw_vertical_texture(t_vars *vars, int x_side[2],
 	else
 		wallx = vars->pos_x + perp_wall_dist * v.ray[0];
 	wallx -= floor(wallx);
-	v.texture[0] = (int)(wallx * (double)(vars->textures[x_side[1]].width));
+	v.texture[0] = (int)(wallx
+			* (double)(vars->textures[x_side[1]].width));
 	if ((x_side[1] == 0 || x_side[1] == 1) && v.ray[0] > 0)
-		v.texture[0] = vars->textures[x_side[1]].width - v.texture[0] - 1;
+		v.texture[0] = vars->textures[x_side[1]].width
+			- v.texture[0] - 1;
 	if ((x_side[1] == 2 || x_side[1] == 3) && v.ray[1] < 0)
-		v.texture[0] = vars->textures[x_side[1]].width - v.texture[0] - 1;
+		v.texture[0] = vars->textures[x_side[1]].width
+			- v.texture[0] - 1;
 	if (x_side[0] < 0 || x_side[0] >= S_WIDTH)
 		return ;
 	draw_loop(vars, x_side[0], v, x_side[1]);

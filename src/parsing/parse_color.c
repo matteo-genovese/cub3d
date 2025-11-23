@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/10/17 17:50:51 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:49:45 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ static int	parse_rgb_values(char **split, t_color *color)
 	r = ft_atoi(split[0]);
 	g = ft_atoi(split[1]);
 	b = ft_atoi(split[2]);
-	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+	if (r < 0 || r > 255 || g < 0 || g > 255
+		|| b < 0 || b > 255)
 		return (ft_error("RGB values must be in range [0, 255]\n"));
 	color->r = r;
 	color->g = g;
@@ -88,4 +89,3 @@ int	parse_color(char *line, t_color *color)
 	free_split(split);
 	return (result);
 }
-

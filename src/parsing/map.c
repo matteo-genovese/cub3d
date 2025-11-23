@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/23 17:28:37 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:50:09 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,6 @@ static void	fill_line_with_spaces(char *dest, char *src, int width)
 		i++;
 	}
 	dest[i] = '\0';
-}
-
-void	free_map_array(char **map, int i)
-{
-	while (i > 0)
-		free(map[--i]);
-	free(map);
 }
 
 void	clear_map(t_map *map)

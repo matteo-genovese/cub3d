@@ -6,26 +6,12 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/23 15:18:57 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:50:42 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <fcntl.h>
-
-static int	is_empty_line(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 static int	try_parse_setting(char *line, t_input *input)
 {
@@ -59,6 +45,17 @@ static int	process_line(char *line, t_input *input)
 	return (result);
 }
 
+static int	process_result(int result)
+{
+	if (result != 0)
+	{
+		if (result == 2)
+			return (0);
+		return (1);
+	}
+	return (-1);
+}
+
 static int	read_settings(int fd, t_input *input)
 {
 	char	*line;
@@ -74,12 +71,9 @@ static int	read_settings(int fd, t_input *input)
 			break ;
 		result = process_line(trimmed_line, input);
 		free(trimmed_line);
-		if (result != 0)
-		{
-			if (result == 2)
-				return (0);
-			return (1);
-		}
+		result = process_result(result);
+		if (result != -1)
+			return (result);
 	}
 	if (!all_settings_found(input))
 		return (ft_error("Missing required settings\n"));

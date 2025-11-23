@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 19:36:15 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/11/11 10:49:23 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:45:35 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,13 @@ void	vectors_setup(t_vars *vars, t_vectors *v, int i)
 	else
 		v->deltadist[1] = fabs(1.0 / v->ray[1]);
 	v->step[0] = -1 * (v->ray[0] < 0) + 1 * (v->ray[0] >= 0);
-	v->sidedist[0] = (-vars->pos_x + v->map[0] + 1) * v->deltadist[0];
+	v->sidedist[0] = (-vars->pos_x + v->map[0] + 1)
+		* v->deltadist[0];
 	if (v->ray[0] < 0)
 		v->sidedist[0] = (vars->pos_x - v->map[0]) * v->deltadist[0];
 	v->step[1] = -1 * (v->ray[1] < 0) + 1 * (v->ray[1] >= 0);
-	v->sidedist[1] = (-vars->pos_y + v->map[1] + 1) * v->deltadist[1];
+	v->sidedist[1] = (-vars->pos_y + v->map[1] + 1)
+		* v->deltadist[1];
 	if (v->ray[1] < 0)
 		v->sidedist[1] = (vars->pos_y - v->map[1]) * v->deltadist[1];
 }
@@ -88,7 +90,8 @@ void	vectors_setup(t_vars *vars, t_vectors *v, int i)
 /*
  * Performs the DDA algorithm to find the wall hit
  */
-void	perform_dda(t_vars *vars, t_vectors v, int *side, double *perp_wall_dist)
+void	perform_dda(t_vars *vars, t_vectors v,
+		int *side, double *perp_wall_dist)
 {
 	int	hit;
 	int	dir;

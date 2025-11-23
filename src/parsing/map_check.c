@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/10/19 18:32:14 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:49:50 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int	check_position(t_map *map, int y, int x)
 {
 	if (map->map[y][x] != '0' && !is_player_char(map->map[y][x]))
 		return (0);
-	if (y == 0 || y == map->height - 1 || x == 0 || x == map->width - 1)
+	if (y == 0 || y == map->height - 1
+		|| x == 0 || x == map->width - 1)
 		return (ft_error("Map not surrounded by walls\n"));
 	if (check_neighbor(map, y - 1, x))
 		return (1);
@@ -68,4 +69,3 @@ int	check_walls(t_map *map)
 	}
 	return (0);
 }
-

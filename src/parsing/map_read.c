@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/23 15:42:40 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:51:27 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,3 @@ void	init_map_struct(t_map *map, t_list *map_lines)
 	map->player_y = -1;
 	map->player_dir = '\0';
 }
-

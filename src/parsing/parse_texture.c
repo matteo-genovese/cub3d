@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/06 12:51:02 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:50:58 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,24 @@ char	*parse_texture_path(char *line)
 		free(path);
 		if (fd == -1)
 			ft_error("Texture file not found\n");
-		else 
+		else
 			ft_error("Invalid texture format (must be .xpm)\n");
 		return (NULL);
 	}
 	close(fd);
 	return (path);
+}
+
+int	is_empty_line(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+			return (0);
+		i++;
+	}
+	return (1);
 }

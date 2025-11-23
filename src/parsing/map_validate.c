@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/10/17 17:50:51 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:34:30 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,24 @@ int	validate_map(t_map *map)
 	if (check_walls(map))
 		return (1);
 	return (0);
+}
+
+void	free_input(t_input *input)
+{
+	if (!input)
+		return ;
+	free(input->path_no);
+	free(input->path_so);
+	free(input->path_we);
+	free(input->path_ea);
+	input->path_no = NULL;
+	input->path_so = NULL;
+	input->path_we = NULL;
+	input->path_ea = NULL;
+	input->has_no = 0;
+	input->has_so = 0;
+	input->has_we = 0;
+	input->has_ea = 0;
+	input->has_floor = 0;
+	input->has_ceiling = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 19:40:15 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/11/23 15:08:23 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:28:51 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,26 @@ int	key_release_handler(int keycode, t_vars *vars)
 
 int	destroy(t_vars *vars)
 {
-	if (vars->mlx)
-	{
-		if (vars->mlx->mlx)
-		{
-			if (vars->mlx->img)
-				mlx_destroy_image(vars->mlx->mlx, vars->mlx->img);
-			if (vars->mlx->win)
-				mlx_destroy_window(vars->mlx->mlx, vars->mlx->win);
-			mlx_destroy_display(vars->mlx->mlx);
-			free(vars->mlx->mlx);
-		}
-		vars->mlx = NULL;
-		exit(0);
-	}
+    if (vars->map)
+    {
+        free_map_array(vars->map, vars->map_height);
+        vars->map = NULL;
+        vars->map_height = 0;
+    }
+    if (vars->mlx)
+    {
+        if (vars->mlx->mlx)
+        {
+            if (vars->mlx->img)
+                mlx_destroy_image(vars->mlx->mlx, vars->mlx->img);
+            if (vars->mlx->win)
+                mlx_destroy_window(vars->mlx->mlx, vars->mlx->win);
+            mlx_destroy_display(vars->mlx->mlx);
+            free(vars->mlx->mlx);
+        }
+        vars->mlx = NULL;
+        exit(0);
+    }
 	return (0);
 }
 

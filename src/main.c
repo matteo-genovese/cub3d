@@ -38,15 +38,23 @@ int	main(int argc, char **argv)
 	t_input		input;
 	t_map		map;
 
+	ft_memset(&map, 0, sizeof(t_map));
 	if (argc != 2)
 	{
 		printf("Usage: %s <map_file>.cub\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
 	if (parse_input(argv[1], &input))
+	{
+		free_input(&input);
 		exit(EXIT_FAILURE);
+	}
 	if (parse_map(argv[1], &map))
+	{
+		free_input(&input);
+		clear_map(&map);
 		exit(EXIT_FAILURE);
+	}
 
 	mlx = (t_mlx_win){0};
 	mlx.mlx = NULL;
@@ -97,16 +105,19 @@ int	main(int argc, char **argv)
 	vars.floor_color = (input.floor.r << 16) | (input.floor.g << 8) | input.floor.b;
 
 	vars.map = map.map;
+	vars.map_height = map.height;
 	// free_map_array(map.map, map.height);
 
 	vars.textures[0].img = mlx_xpm_file_to_image(mlx.mlx, input.path_no, &vars.textures[0].width, &vars.textures[0].height);
 	vars.textures[1].img = mlx_xpm_file_to_image(mlx.mlx, input.path_so, &vars.textures[1].width, &vars.textures[1].height);
 	vars.textures[2].img = mlx_xpm_file_to_image(mlx.mlx, input.path_ea, &vars.textures[2].width, &vars.textures[2].height);
 	vars.textures[3].img = mlx_xpm_file_to_image(mlx.mlx, input.path_we, &vars.textures[3].width, &vars.textures[3].height);
-	if (!vars.textures[0].img || !vars.textures[1].img || 
+	if (!vars.textures[0].img || !vars.textures[1].img ||
 		!vars.textures[2].img || !vars.textures[3].img)
 	{
 		printf("Error: Failed to load textures\n");
+		free_input(&input);
+		clear_map(&map);
 		exit(EXIT_FAILURE);
 	}
 	vars.textures[0].addr = mlx_get_data_addr(vars.textures[0].img, &vars.textures[0].bits_per_pixel,
@@ -118,10 +129,12 @@ int	main(int argc, char **argv)
 	vars.textures[3].addr = mlx_get_data_addr(vars.textures[3].img, &vars.textures[3].bits_per_pixel,
 					   &vars.textures[3].line_length, &vars.textures[3].endian);
 
+	free_input(&input);
+
 	hooks(&vars);
 	render(&vars);
 	mlx_loop_hook(mlx.mlx, render_loop, &vars);
 	mlx_loop(mlx.mlx);
 	// free_map_array(vars.map, map.height);
-	return 0;
+	return (0);
 }

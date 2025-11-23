@@ -45,6 +45,7 @@ typedef struct s_map
 	int		player_x;
 	int		player_y;
 	char	player_dir;
+	int				map_height;
 }	t_map;
 
 typedef struct s_mlx_win
@@ -106,6 +107,7 @@ typedef struct s_vars
 	double			plane[2];
 	unsigned int	floor_color;
 	unsigned int	ceiling_color;
+	int				map_height;
 }				t_vars;
 
 void	init(t_mlx_win *vars);
@@ -142,5 +144,7 @@ t_list	*read_map_lines(int fd);
 int		get_max_width(t_list *map_lines);
 void	init_map_struct(t_map *map, t_list *map_lines);
 void	free_map_array(char **map, int i);
+void	clear_map(t_map *map);
+void	free_input(t_input *input);
 
 #endif

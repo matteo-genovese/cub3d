@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/23 15:58:45 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:28:37 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,22 @@ void	free_map_array(char **map, int i)
 	while (i > 0)
 		free(map[--i]);
 	free(map);
+}
+
+void	clear_map(t_map *map)
+{
+	if (!map)
+		return ;
+	if (map->map)
+	{
+		free_map_array(map->map, map->height);
+		map->map = NULL;
+	}
+	map->width = 0;
+	map->height = 0;
+	map->player_x = -1;
+	map->player_y = -1;
+	map->player_dir = '\0';
 }
 
 static char	**convert_list_to_array(t_list *map_lines, int height, int width)
@@ -103,6 +119,9 @@ int	parse_map(char *file_path, t_map *map)
 	if (!map->map)
 		return (ft_error("Memory allocation failed\n"));
 	if (validate_map(map))
+	{
+		clear_map(map);
 		return (1);
+	}
 	return (0);
 }

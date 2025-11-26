@@ -15,8 +15,9 @@ SRC_FILES = main.c init/initialize.c init/init2.c \
 			parsing/input.c parsing/parse_settings.c \
 			parsing/parse_helpers.c parsing/parse_color.c \
 			parsing/parse_texture.c parsing/map.c \
-			parsing/map_read.c parsing/map_validate.c \
-			parsing/map_check.c utils/escape.c utils/error.c
+			parsing/map_read.c parsing/map_utils.c \
+			parsing/map_validate.c parsing/map_check.c \
+			utils/escape.c utils/error.c
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 

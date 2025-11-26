@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/23 21:10:18 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/26 22:55:54 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,37 @@ static void	add_line_to_list(t_list **map_lines, char *line)
 	ft_lstadd_back(map_lines, new_node);
 }
 
+static int	has_map_content_after(int fd)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		if (is_map_line(line))
+		{
+			free(line);
+			return (1);
+		}
+		free(line);
+	}
+	return (0);
+}
+
+static t_list	*handle_map_end(int fd, t_list *map_lines, char *line)
+{
+	free(line);
+	if (has_map_content_after(fd))
+	{
+		ft_lstclear(&map_lines, free);
+		ft_error("Map must be continuous (no empty lines)\n");
+		return (NULL);
+	}
+	return (map_lines);
+}
+
 t_list	*read_map_lines(int fd)
 {
 	t_list	*map_lines;
@@ -77,40 +108,10 @@ t_list	*read_map_lines(int fd)
 			started = 1;
 		}
 		else if (started && !is_map_line(line))
-		{
-			free(line);
-			break ;
-		}
+			return (handle_map_end(fd, map_lines, line));
 		free(line);
 	}
+	if (!map_lines)
+		ft_error("No map found in file\n");
 	return (map_lines);
-}
-
-int	get_max_width(t_list *map_lines)
-{
-	int		max_width;
-	int		len;
-	t_list	*current;
-
-	max_width = 0;
-	current = map_lines;
-	while (current)
-	{
-		len = ft_strlen((char *)current->content);
-		if (len > 0 && ((char *)current->content)[len - 1] == '\n')
-			len--;
-		if (len > max_width)
-			max_width = len;
-		current = current->next;
-	}
-	return (max_width);
-}
-
-void	init_map_struct(t_map *map, t_list *map_lines)
-{
-	map->height = ft_lstsize(map_lines);
-	map->width = get_max_width(map_lines);
-	map->player_x = -1;
-	map->player_y = -1;
-	map->player_dir = '\0';
 }

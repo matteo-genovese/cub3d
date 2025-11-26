@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 17:58:57 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/10/17 11:13:25 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/26 22:20:19 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ char	*gnl_strjoin(char *s1, char *s2, int flag)
 
 	if (!s1 || !s2)
 		return (NULL);
-	len_s1 = gnl_strlen(s1);
-	len_s2 = gnl_strlen(s2);
+	len_s1 = ft_strlen(s1);
+	len_s2 = ft_strlen(s2);
 	str = (char *)malloc((len_s1 + len_s2 + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
@@ -69,36 +69,4 @@ char	*gnl_strjoin(char *s1, char *s2, int flag)
 		free(s2);
 	}
 	return (str);
-}
-
-char	*gnl_substr(char const *s, unsigned int start, size_t len)
-{
-	size_t	i;
-	char	*str;
-
-	if (start >= gnl_strlen(s))
-		return (NULL);
-	i = -1;
-	if (len < gnl_strlen(s) - start)
-		str = (char *)malloc((len + 1) * sizeof(char));
-	else
-		str = (char *)malloc((gnl_strlen(s) - start + 1) * sizeof(char));
-	if (!str || !s)
-		return (NULL);
-	while (++i < len && i < gnl_strlen(s) && s[i + start])
-		str[i] = s[i + start];
-	str[i] = '\0';
-	return (str);
-}
-
-size_t	gnl_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i])
-		++i;
-	return (i);
 }

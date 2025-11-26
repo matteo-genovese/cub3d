@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/23 17:51:27 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/23 21:10:18 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	skip_to_map(int fd)
 	{
 		line = get_next_line(fd);
 		if (!line)
+		{
+			get_next_line(-1);
 			return ;
+		}
 		trimmed = line;
 		while (*trimmed == ' ' || *trimmed == '\t')
 			trimmed++;

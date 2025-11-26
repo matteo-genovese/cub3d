@@ -1,0 +1,88 @@
+=== GOOD MAPS Leak Check started: mer 26 nov 2025, 22:41:10, CET ===
+
+=== MAP: ./maps/good/cheese_maze.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24367==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== MAP: ./maps/good/creepy.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24394==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== MAP: ./maps/good/dungeon.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24425==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== MAP: ./maps/good/library.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24448==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== MAP: ./maps/good/matrix.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24476==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== MAP: ./maps/good/sad_face.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24513==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== MAP: ./maps/good/square_map.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24542==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== MAP: ./maps/good/subject_map.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24574==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== MAP: ./maps/good/test_map.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24598==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== MAP: ./maps/good/test_map_hole.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24626==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== MAP: ./maps/good/test_pos_bottom.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24653==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== MAP: ./maps/good/test_pos_left.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24676==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== MAP: ./maps/good/test_pos_right.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24708==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== MAP: ./maps/good/test_pos_top.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24732==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== MAP: ./maps/good/test_textures.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24756==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== MAP: ./maps/good/test_whitespace.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24787==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== MAP: ./maps/good/works.cub ===
+Exit code: 124 (124=timeout normale per good maps)
+==24833==    definitely lost: 0 bytes in 0 blocks
+[OK - Nessun leak]
+
+=== GOOD MAPS Leak Check finished: mer 26 nov 2025, 22:41:45, CET ===

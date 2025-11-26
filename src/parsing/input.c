@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/23 17:50:42 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/26 22:14:56 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,12 @@ static int	read_settings(int fd, t_input *input)
 		free(trimmed_line);
 		result = process_result(result);
 		if (result != -1)
+		{
+			get_next_line(-1);
 			return (result);
+		}
 	}
+	get_next_line(-1);
 	if (!all_settings_found(input))
 		return (ft_error("Missing required settings\n"));
 	return (0);
@@ -96,5 +100,7 @@ int	parse_input(char *file_path, t_input *input)
 		return (ft_error("Failed to open file\n"));
 	result = read_settings(fd, input);
 	close(fd);
+	if (result != 0)
+		get_next_line(-1);
 	return (result);
 }

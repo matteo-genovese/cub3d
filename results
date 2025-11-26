@@ -1,8 +1,8 @@
-=== BAD MAPS Test run started: dom 23 nov 2025, 18:06:06, CET ===
+=== BAD MAPS Test run started: mer 26 nov 2025, 22:25:11, CET ===
 
-=== Test run finished: dom 23 nov 2025, 18:06:11, CET ===
+=== MAP: ./maps/bad/file_letter_end.cub ===
+Command: timeout 3s ./cub3D ./maps/bad/file_letter_end.cub
 
-=== GOOD MAPS Test run started: dom 23 nov 2025, 18:06:34, CET ===
+[ERRORE CRITICO: timeout - finestra grafica aperta! Exit code: 124]
 
-=== GOOD MAPS Test run finished: dom 23 nov 2025, 18:07:25, CET ===
-Failures: 17
+=== BAD MAPS Test run finished: mer 26 nov 2025, 22:25:17, CET ===

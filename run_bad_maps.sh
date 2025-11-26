@@ -25,12 +25,25 @@ while IFS= read -r -d '' map; do
   # cattura output in variabile temporanea
   output=$(timeout 3s "$CUB" "$map" 2>&1)
   rc=$?
-  # salva solo se il programma si comporta MALE (NON restituisce errore per bad map)
-  if [ $rc -eq 0 ]; then
+  
+  # Per le bad maps, ci aspettiamo exit code 1 (errore)
+  # Qualsiasi altro exit code indica un problema:
+  # - rc=0: mappa accettata (MALE!)
+  # - rc=124: timeout raggiunto, finestra aperta (MALE!)
+  # - altri: crash o comportamento anomalo
+  
+  if [ $rc -ne 1 ]; then
     printf "=== MAP: %s ===\n" "$map" >> "$RESULTS"
     printf "Command: timeout 3s %s %s\n" "$CUB" "$map" >> "$RESULTS"
     echo "$output" >> "$RESULTS"
-    printf "[ERRORE: bad map accettata con exit code: 0]\n" >> "$RESULTS"
+    
+    if [ $rc -eq 0 ]; then
+      printf "[ERRORE CRITICO: bad map accettata! Exit code: 0]\n" >> "$RESULTS"
+    elif [ $rc -eq 124 ]; then
+      printf "[ERRORE CRITICO: timeout - finestra grafica aperta! Exit code: 124]\n" >> "$RESULTS"
+    else
+      printf "[ERRORE: comportamento anomalo. Exit code: %d]\n" "$rc" >> "$RESULTS"
+    fi
     printf "\n" >> "$RESULTS"
   fi
 done < <(find "$MAP_DIR" -type f -print0 | sort -z)

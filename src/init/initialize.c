@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 19:40:15 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/11/23 17:47:36 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:51:30 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int	destroy(t_vars *vars)
 	{
 		free_map_array(vars->map, vars->map_height);
 		vars->map = NULL;
-		vars->map_height = 0;
 	}
 	destroy_textures(vars);
 	if (vars->mlx)

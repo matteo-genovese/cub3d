@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:39:55 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/11/27 15:49:03 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:57:07 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ void	map_setup(t_vars *vars, t_input *input, t_map *map)
 		vars->plane[0] = -0.66;
 	}
 	vars->move_speed = 0.1;
+	vars->rot_speed = 0.15;
 	vars->ceiling_color = (input->ceiling.r << 16)
 		| (input->ceiling.g << 8) | input->ceiling.b;
 	vars->floor_color = (input->floor.r << 16)
 		| (input->floor.g << 8) | input->floor.b;
-	vars->map = map->map;
 	vars->map_height = map->height;
 	load_texture(vars, input, vars->mlx, map);
 }
@@ -129,6 +129,7 @@ int	main(int argc, char **argv)
 	init(&mlx);
 	ft_memset(&vars, 0, sizeof(t_vars));
 	vars.mlx = &mlx;
+	vars.map = map.map;
 	map_setup(&vars, &input, &map);
 	free_input(&input);
 	hooks(&vars);

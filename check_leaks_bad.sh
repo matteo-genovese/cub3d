@@ -49,7 +49,7 @@ while IFS= read -r -d '' map; do
   elif [ -z "$all_freed" ]; then
     # se non trova né "definitely lost" né "All heap blocks were freed", potrebbe esserci un problema
     has_leaks=1
-  fi
+  fi 
   
   # registra solo se ci sono leak
   if [ $has_leaks -eq 1 ]; then
@@ -59,6 +59,8 @@ while IFS= read -r -d '' map; do
     echo "$leak_summary" >> "$RESULTS"
     printf "[MEMORY LEAK RILEVATO!]\n" >> "$RESULTS"
     printf "\n" >> "$RESULTS"
+  else
+    echo "No memory leaks detected for $map" >> "$RESULTS"
   fi
 done < <(find "$MAP_DIR" -type f -print0 | sort -z)
 

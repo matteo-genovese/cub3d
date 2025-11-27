@@ -28,13 +28,13 @@ while IFS= read -r -d '' map; do
   # Per good maps, exit code 124 (timeout) è OK (finestra aperta)
   # Exit code 0 potrebbe essere OK se il programma termina normalmente
   # Qualsiasi altro exit code è un errore
+  printf "=== MAP: %s ===\n" "$map" >> "$RESULTS"
+  printf "Command: timeout 3s %s %s\n" "$CUB" "$map" >> "$RESULTS"
+  echo "$output" >> "$RESULTS"
   if [ $rc -eq 124 ] || [ $rc -eq 0 ]; then
-    : # OK - non registra nulla
+    printf "[OK: exit code %d]\n" "$rc" >> "$RESULTS"
   else
     # Errore - registra nel file results
-    printf "=== MAP: %s ===\n" "$map" >> "$RESULTS"
-    printf "Command: timeout 3s %s %s\n" "$CUB" "$map" >> "$RESULTS"
-    echo "$output" >> "$RESULTS"
     printf "[ERRORE: exit code %d]\n" "$rc" >> "$RESULTS"
     printf "\n" >> "$RESULTS"
     failures=$((failures+1))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 15:39:55 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/11/27 15:57:07 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/11/27 17:18:29 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	load_texture(t_vars *vars, t_input *input, t_mlx_win *mlx, t_map *map)
 	int	i;
 
 	i = -1;
-	vars->textures[0].img = mlx_xpm_file_to_image(mlx->mlx, input->path_no,
+	vars->textures[0].img = mlx_xpm_file_to_image(mlx->mlx, input->path_so,
 			&vars->textures[0].width, &vars->textures[0].height);
-	vars->textures[1].img = mlx_xpm_file_to_image(mlx->mlx, input->path_so,
+	vars->textures[1].img = mlx_xpm_file_to_image(mlx->mlx, input->path_no,
 			&vars->textures[1].width, &vars->textures[1].height);
 	vars->textures[2].img = mlx_xpm_file_to_image(mlx->mlx, input->path_ea,
 			&vars->textures[2].width, &vars->textures[2].height);
@@ -54,7 +54,7 @@ void	load_texture(t_vars *vars, t_input *input, t_mlx_win *mlx, t_map *map)
 	if (!vars->textures[0].img || !vars->textures[1].img
 		|| !vars->textures[2].img || !vars->textures[3].img)
 	{
-		printf("Error: Failed to load textures\n");
+		perror("Error: Failed to load textures\n");
 		free_input(input);
 		clear_map(map);
 		exit(EXIT_FAILURE);
@@ -67,25 +67,25 @@ void	load_texture(t_vars *vars, t_input *input, t_mlx_win *mlx, t_map *map)
 
 void	map_setup(t_vars *vars, t_input *input, t_map *map)
 {
-	vars->pos_x = map->player_y + 0.5;
-	vars->pos_y = map->player_x + 0.5;
-	vars->plane[1] = 0.66;
 	if (map->player_dir == 'N')
-		vars->dir_x = -1;
-	else if (map->player_dir == 'S')
 	{
-		vars->dir_x = 1;
-		vars->plane[1] = -0.66;
+		vars->dir_x = -1;
+		vars->plane[1] = +0.66;
 	}
+	else if (map->player_dir == 'S')
+		vars->dir_x = 1;
 	else if (map->player_dir == 'W')
-		vars->dir_y = 1;
-	else if (map->player_dir == 'E')
 	{
 		vars->dir_y = -1;
 		vars->plane[0] = -0.66;
+		vars->plane[1] = 0.0;
 	}
-	vars->move_speed = 0.1;
-	vars->rot_speed = 0.15;
+	else if (map->player_dir == 'E')
+	{
+		vars->dir_y = 1;
+		vars->plane[0] = +0.66;
+		vars->plane[1] = 0.0;
+	}
 	vars->ceiling_color = (input->ceiling.r << 16)
 		| (input->ceiling.g << 8) | input->ceiling.b;
 	vars->floor_color = (input->floor.r << 16)
@@ -123,13 +123,16 @@ int	main(int argc, char **argv)
 
 	ft_memset(&map, 0, sizeof(t_map));
 	starting_check(argc, argv, &input, &map);
-	mlx = (t_mlx_win){0};
-	mlx.mlx = NULL;
-	mlx.win = NULL;
 	init(&mlx);
 	ft_memset(&vars, 0, sizeof(t_vars));
 	vars.mlx = &mlx;
 	vars.map = map.map;
+	vars.pos_x = map.player_y + 0.5;
+	vars.pos_y = map.player_x + 0.5;
+	vars.move_speed = 0.1;
+	vars.rot_speed = 0.15;
+	vars.plane[1] = -0.66;
+	vars.plane[0] = 0.0;
 	map_setup(&vars, &input, &map);
 	free_input(&input);
 	hooks(&vars);

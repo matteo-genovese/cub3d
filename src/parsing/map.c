@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/26 22:55:57 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/11/27 17:40:49 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ static void	fill_line_with_spaces(char *dest, char *src, int width)
 		len--;
 	while (i < len)
 	{
-		if (src[i] == ' ' || src[i] == '\t')
-			dest[i] = '1';
+		if (src[i] == '\t')
+			dest[i] = ' ';
 		else
 			dest[i] = src[i];
 		i++;
 	}
 	while (i < width)
 	{
-		dest[i] = '1';
+		dest[i] = ' ';
 		i++;
 	}
 	dest[i] = '\0';
@@ -93,6 +93,25 @@ static void	free_map_lines(t_list *map_lines)
 	}
 }
 
+void	space_to_one(char **map, int height)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (y < height)
+	{
+		x = 0;
+		while (map[y][x])
+		{
+			if (map[y][x] == ' ')
+				map[y][x] = '1';
+			x++;
+		}
+		y++;
+	}
+}
+
 int	parse_map(char *file_path, t_map *map)
 {
 	int		fd;
@@ -117,5 +136,6 @@ int	parse_map(char *file_path, t_map *map)
 		clear_map(map);
 		return (1);
 	}
+	space_to_one(map->map, map->height);
 	return (0);
 }

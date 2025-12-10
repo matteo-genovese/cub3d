@@ -6,14 +6,14 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/27 17:40:49 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/12/10 19:12:44 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <fcntl.h>
 
-static void	fill_line_with_spaces(char *dest, char *src, int width)
+void	fill_line_char(char *dest, char *src, int width, char c)
 {
 	int	i;
 	int	len;
@@ -25,14 +25,14 @@ static void	fill_line_with_spaces(char *dest, char *src, int width)
 	while (i < len)
 	{
 		if (src[i] == '\t')
-			dest[i] = ' ';
+			dest[i] = c;
 		else
 			dest[i] = src[i];
 		i++;
 	}
 	while (i < width)
 	{
-		dest[i] = ' ';
+		dest[i] = c;
 		i++;
 	}
 	dest[i] = '\0';
@@ -70,7 +70,7 @@ static char	**convert_list_to_array(t_list *map_lines, int height, int width)
 		map[i] = (char *)malloc(sizeof(char) * (width + 1));
 		if (!map[i])
 			return (free_map_array(map, i), NULL);
-		fill_line_with_spaces(map[i], (char *)current->content, width);
+		fill_line_char(map[i], (char *)current->content, width, ' ');
 		current = current->next;
 		i++;
 	}
@@ -90,25 +90,6 @@ static void	free_map_lines(t_list *map_lines)
 		free(current->content);
 		free(current);
 		current = next;
-	}
-}
-
-void	space_to_one(char **map, int height)
-{
-	int	y;
-	int	x;
-
-	y = 0;
-	while (y < height)
-	{
-		x = 0;
-		while (map[y][x])
-		{
-			if (map[y][x] == ' ')
-				map[y][x] = '1';
-			x++;
-		}
-		y++;
 	}
 }
 
@@ -136,6 +117,7 @@ int	parse_map(char *file_path, t_map *map)
 		clear_map(map);
 		return (1);
 	}
-	space_to_one(map->map, map->height);
+	for (size_t i = 0; i < (size_t) map->height; i++)
+		space_to_char(map->map[i], '1');
 	return (0);
 }

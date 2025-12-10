@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/27 17:50:51 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/12/10 19:09:46 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@ int	is_valid_neighbor(t_map *map, int y, int x)
 {
 	if (y < 0 || y >= map->height || x < 0 || x >= map->width)
 		return (0);
-	return (map->map[y][x] == '1');
+	return (map->map[y][x] == 'K');
 }
 
 int	check_neighbor(t_map *map, int y, int x)
 {
-	if (!is_valid_neighbor(map, y, x) && map->map[y][x] != '0'
-		&& !is_player_char(map->map[y][x]))
+	if (!is_valid_neighbor(map, y, x) && map->map[y][x] == '0'
+		&& is_player_char(map->map[y][x]))
 		return (ft_error("Map not surrounded by walls\n"));
 	return (0);
 }
 
 int	check_position(t_map *map, int y, int x)
 {
-	if (map->map[y][x] != '0' && !is_player_char(map->map[y][x]))
+	if (map->map[y][x] != '0' && !is_player_char(map->map[y][x]) && map->map[y][x] != '1')
 		return (0);
 	if (y == 0 || y == map->height - 1
 		|| x == 0 || x == map->width - 1)

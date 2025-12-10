@@ -33,6 +33,7 @@ while IFS= read -r -d '' map; do
   echo "$output" >> "$RESULTS"
   if [ $rc -eq 124 ] || [ $rc -eq 0 ]; then
     printf "[OK: exit code %d]\n" "$rc" >> "$RESULTS"
+	printf "\n" >> "$RESULTS"
   else
     # Errore - registra nel file results
     printf "[ERRORE: exit code %d]\n" "$rc" >> "$RESULTS"

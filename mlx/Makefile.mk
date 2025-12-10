@@ -14,7 +14,7 @@
 INC	=%%%%
 
 UNAME = $(shell uname)
-CC	= gcc
+CC	= gcc-14
 ifeq ($(UNAME),FreeBSD)
 	CC = clang
 endif
@@ -49,8 +49,6 @@ $(NAME)	: $(OBJ)
 	ranlib $(NAME)
 	cp $(NAME) $(NAME_UNAME)
 
-check: all
-	@test/run_tests.sh
 
 show:
 	@printf "NAME  		: $(NAME)\n"

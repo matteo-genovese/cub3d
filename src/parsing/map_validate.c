@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/11/23 17:50:24 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/12/10 19:19:26 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,49 @@ int	find_player(t_map *map)
 	return (0);
 }
 
+void	space_to_char(char *str, char c)
+{
+	while (*str)
+	{
+		if (*str == ' ')
+			*str = c;
+		str++;
+	}
+}
+
 int	validate_map(t_map *map)
 {
+	t_map	tmp;
+	size_t	i;
+
 	if (find_player(map))
 		return (1);
-	if (check_walls(map))
+	i = 1;
+	tmp.height = map->height + 2;
+	tmp.width = map->width + 2;
+	tmp.map = (char **) malloc(sizeof(char *) * (tmp.height + 1));
+	if (!tmp.map)
+		return (ft_error("Memory allocation failed\n"));
+	tmp.map[0] = (char *)malloc(sizeof(char) * (tmp.width + 1));
+	tmp.map[tmp.height - 1] = (char *)malloc(sizeof(char) * (tmp.width + 1));
+	ft_memset(tmp.map[0], 'K', tmp.width);
+	ft_memset(tmp.map[tmp.height - 1], 'K', tmp.width);
+	while (i < (size_t) tmp.height -1)
+	{
+		tmp.map[i] = (char *)malloc(sizeof(char) * (tmp.width + 1));
+		ft_memset(tmp.map[i], 'K', tmp.width);
+		if (!tmp.map[i])
+			return (ft_error("Memory allocation failed\n"));
+		ft_memcpy(tmp.map[i] + 1, map->map[i - 1], map->width);
+		space_to_char(tmp.map[i], 'K');
+		i++;
+	}
+	if (check_walls(&tmp))
+	{
+		free_map_array(tmp.map, tmp.height);
+		free(tmp.map);
 		return (1);
+	}
 	return (0);
 }
 

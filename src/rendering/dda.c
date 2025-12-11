@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 19:36:15 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/11/23 17:45:35 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/12/11 13:39:51 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,13 @@ void	vectors_setup(t_vars *vars, t_vectors *v, int i)
 void	perform_dda(t_vars *vars, t_vectors v,
 		int *side, double *perp_wall_dist)
 {
-	int	hit;
-	int	dir;
+	int		hit;
+	int		dir;
+	size_t	iter;
 
 	hit = 0;
-	while (hit == 0)
+	iter = 0;
+	while (hit == 0 && iter < MAX_ITER)
 	{
 		dir = !(v.sidedist[0] < v.sidedist[1]);
 		v.sidedist[dir] += v.deltadist[dir];
@@ -107,7 +109,10 @@ void	perform_dda(t_vars *vars, t_vectors v,
 			*side = 1 + 2 * dir;
 		if (vars->map[v.map[0]][v.map[1]] == '1')
 			hit = 1;
+		iter++;
 	}
+	if (iter == MAX_ITER)
+		return ;
 	*perp_wall_dist = (v.sidedist[1] - v.deltadist[1]);
 	if (*side == 0 || *side == 1)
 		*perp_wall_dist = (v.sidedist[0] - v.deltadist[0]);

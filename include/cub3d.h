@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 17:53:33 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/12/11 11:03:01 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/12/11 13:40:08 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define S_WIDTH 1080
 # define S_HEIGHT 720
 # define FPS 30
+# define MAX_ITER 10000
 
 # include <mlx.h>
 # include <stdlib.h>

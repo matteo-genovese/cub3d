@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validate.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/12/10 19:19:26 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/12/11 10:07:41 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,23 @@ void	space_to_char(char *str, char c)
 	}
 }
 
+void	print_map(t_map *map)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < (size_t) map->height)
+	{
+		printf("%s\n", map->map[i]);
+		i++;
+	}
+}
+
 int	validate_map(t_map *map)
 {
 	t_map	tmp;
 	size_t	i;
+	int		ret;
 
 	if (find_player(map))
 		return (1);
@@ -80,13 +93,9 @@ int	validate_map(t_map *map)
 		space_to_char(tmp.map[i], 'K');
 		i++;
 	}
-	if (check_walls(&tmp))
-	{
-		free_map_array(tmp.map, tmp.height);
-		free(tmp.map);
-		return (1);
-	}
-	return (0);
+	ret = check_walls(&tmp);
+	free_map_array(tmp.map, tmp.height);
+	return (ret);
 }
 
 void	free_input(t_input *input)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/12/10 19:09:46 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/12/11 09:58:33 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,40 +32,26 @@ int	check_neighbor(t_map *map, int y, int x)
 	return (0);
 }
 
-int	check_position(t_map *map, int y, int x)
+int	flood_fill_check(t_map *map, int y, int x)
 {
-	if (map->map[y][x] != '0' && !is_player_char(map->map[y][x]) && map->map[y][x] != '1')
+	if (y < 0 || y >= map->height || x < 0 || x >= map->width
+		|| map->map[y][x] == 'V' || map->map[y][x] == '1')
 		return (0);
-	if (y == 0 || y == map->height - 1
-		|| x == 0 || x == map->width - 1)
-		return (ft_error("Map not surrounded by walls\n"));
-	if (check_neighbor(map, y - 1, x))
+	if (map->map[y][x] == '0')
+		return (ft_error("Map is not enclosed by walls\n"));
+	map->map[y][x] = 'V';
+	if (flood_fill_check(map, y - 1, x))
 		return (1);
-	if (check_neighbor(map, y + 1, x))
+	if (flood_fill_check(map, y + 1, x))
 		return (1);
-	if (check_neighbor(map, y, x - 1))
+	if (flood_fill_check(map, y, x - 1))
 		return (1);
-	if (check_neighbor(map, y, x + 1))
+	if (flood_fill_check(map, y, x + 1))
 		return (1);
 	return (0);
 }
 
 int	check_walls(t_map *map)
 {
-	int	y;
-	int	x;
-
-	y = 0;
-	while (y < map->height)
-	{
-		x = 0;
-		while (x < map->width)
-		{
-			if (check_position(map, y, x))
-				return (1);
-			x++;
-		}
-		y++;
-	}
-	return (0);
+	return (flood_fill_check(map, 0, 0));
 }

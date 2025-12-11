@@ -6,7 +6,9 @@ RESULTS="results_leaks_bad"
 MAP_DIR="./maps/bad"
 CUB="./cub3D"
 
-: > "$RESULTS"  # tronca/crea file results
+# Remove old results file and create fresh one
+rm -f "$RESULTS"
+touch "$RESULTS"
 
 if [ ! -x "$CUB" ]; then
   echo "Errore: $CUB non eseguibile o non trovato" >> "$RESULTS"
@@ -60,9 +62,27 @@ while IFS= read -r -d '' map; do
     printf "[MEMORY LEAK RILEVATO!]\n" >> "$RESULTS"
     printf "\n" >> "$RESULTS"
   else
-    echo "No memory leaks detected for $map" >> "$RESULTS"
+    printf "=== MAP: %s ===\n" "$map" >> "$RESULTS"
+    printf "[OK - No memory leaks detected]\n" >> "$RESULTS"
+    printf "\n" >> "$RESULTS"
   fi
 done < <(find "$MAP_DIR" -type f -print0 | sort -z)
 
 printf "=== BAD MAPS Leak Check finished: %s ===\n" "$(date)" >> "$RESULTS"
+
+# Count OK results and total maps
+ok_count=$(grep -c "\[OK" "$RESULTS")
+total_maps=$(ls -l "$MAP_DIR" | grep -c "^-")
+
+printf "\n=== FINAL SUMMARY ===\n" >> "$RESULTS"
+printf "Maps tested: %d\n" "$total_maps" >> "$RESULTS"
+printf "Maps passed (OK): %d\n" "$ok_count" >> "$RESULTS"
+
+if [ "$ok_count" -eq "$total_maps" ]; then
+  printf "\n✅ TEST SUCCESSFUL: All %d maps passed without leaks!\n" "$total_maps" >> "$RESULTS"
+  echo "✅ TEST SUCCESSFUL: All $total_maps maps passed without leaks!"
+else
+  printf "\n❌ TEST FAILED: %d/%d maps have leaks\n" "$((total_maps - ok_count))" "$total_maps" >> "$RESULTS"
+  echo "❌ TEST FAILED: $((total_maps - ok_count))/$total_maps maps have leaks"
+fi
 

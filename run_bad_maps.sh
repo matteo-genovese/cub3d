@@ -6,7 +6,9 @@ RESULTS="results"
 MAP_DIR="./maps/bad"
 CUB="./cub3D"
 
-: > "$RESULTS"  # tronca/crea file results
+# Remove old results file and create fresh one
+rm -f "$RESULTS"
+touch "$RESULTS"
 
 if [ ! -x "$CUB" ]; then
   echo "Errore: $CUB non eseguibile o non trovato" >> "$RESULTS"
@@ -50,3 +52,22 @@ while IFS= read -r -d '' map; do
 done < <(find "$MAP_DIR" -type f -print0 | sort -z)
 
 printf "=== BAD MAPS Test run finished: %s ===\n" "$(date)" >> "$RESULTS"
+
+# Count OK results and total maps
+ok_count=$(grep -c "\[OK:" "$RESULTS")
+total_maps=$(ls -l "$MAP_DIR" | grep -c "^-")
+
+printf "\n=== FINAL SUMMARY ===\n" >> "$RESULTS"
+printf "Maps tested: %d\n" "$total_maps" >> "$RESULTS"
+printf "Maps passed (OK): %d\n" "$ok_count" >> "$RESULTS"
+printf "Maps failed: %d\n" "$((total_maps - ok_count))" >> "$RESULTS"
+
+if [ "$ok_count" -eq "$total_maps" ]; then
+  printf "\n✅ TEST SUCCESSFUL: All %d bad maps correctly rejected!\n" "$total_maps" >> "$RESULTS"
+  echo "✅ TEST SUCCESSFUL: All $total_maps bad maps correctly rejected!"
+  exit 0
+else
+  printf "\n❌ TEST FAILED: %d/%d bad maps were incorrectly accepted\n" "$((total_maps - ok_count))" "$total_maps" >> "$RESULTS"
+  echo "❌ TEST FAILED: $((total_maps - ok_count))/$total_maps bad maps were incorrectly accepted"
+  exit 1
+fi

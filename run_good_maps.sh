@@ -7,6 +7,10 @@ RESULTS="results"
 MAP_DIR="./maps/good"
 CUB="./cub3D"
 
+# Remove old results file and create fresh one
+rm -f "$RESULTS"
+touch "$RESULTS"
+
 if [ ! -x "$CUB" ]; then
   echo "Errore: $CUB non eseguibile o non trovato" >> "$RESULTS"
   exit 1
@@ -43,10 +47,22 @@ while IFS= read -r -d '' map; do
 done < <(find "$MAP_DIR" -type f -print0 | sort -z)
 
 printf "=== GOOD MAPS Test run finished: %s ===\n" "$(date)" >> "$RESULTS"
+
+# Count OK results and total maps
+ok_count=$(grep -c "\[OK:" "$RESULTS")
+total_maps=$(ls -l "$MAP_DIR" | grep -c "^-")
+
+printf "\n=== FINAL SUMMARY ===\n" >> "$RESULTS"
+printf "Maps tested: %d\n" "$total_maps" >> "$RESULTS"
+printf "Maps passed (OK): %d\n" "$ok_count" >> "$RESULTS"
 printf "Failures: %d\n" "$failures" >> "$RESULTS"
 
-if [ $failures -ne 0 ]; then
+if [ "$ok_count" -eq "$total_maps" ]; then
+  printf "\n✅ TEST SUCCESSFUL: All %d maps passed!\n" "$total_maps" >> "$RESULTS"
+  echo "✅ TEST SUCCESSFUL: All $total_maps maps passed!"
+  exit 0
+else
+  printf "\n❌ TEST FAILED: %d/%d maps failed\n" "$failures" "$total_maps" >> "$RESULTS"
+  echo "❌ TEST FAILED: $failures/$total_maps maps failed"
   exit 1
 fi
-
-exit 0

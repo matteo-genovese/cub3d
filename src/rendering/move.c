@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 19:45:17 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/12/11 14:11:42 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/12/11 14:16:36 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_valid_move(t_vars *vars, double newX, double newY)
 		&& newX > 1 && newY > 1 && newY < map_width - 1);
 }
 
-void	rotate_view(t_vars *vars, double angle)	
+void	rotate_view(t_vars *vars, double angle)
 {
 	double	old_dir[2];
 	double	old_plane[2];

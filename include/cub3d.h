@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 17:53:33 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/12/10 19:10:11 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/12/11 11:03:01 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,5 +159,7 @@ void	free_input(t_input *input);
 int		is_empty_line(char *line);
 void	fill_line_char(char *dest, char *src, int width, char c);
 void	space_to_char(char *str, char c);
+void	space_to_one(char **str);
+int		is_player_char(char c);
 
 #endif

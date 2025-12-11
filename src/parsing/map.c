@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/12/10 19:12:44 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/12/11 11:02:12 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ int	parse_map(char *file_path, t_map *map)
 		clear_map(map);
 		return (1);
 	}
-	for (size_t i = 0; i < (size_t) map->height; i++)
-		space_to_char(map->map[i], '1');
+	space_to_one(map->map);
 	return (0);
 }

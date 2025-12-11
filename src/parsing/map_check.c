@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:00:00 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/12/11 09:58:33 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/12/11 11:03:47 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,11 @@ int	is_player_char(char c)
 	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
 
-int	is_valid_neighbor(t_map *map, int y, int x)
+void	free_map_array(char **map, int i)
 {
-	if (y < 0 || y >= map->height || x < 0 || x >= map->width)
-		return (0);
-	return (map->map[y][x] == 'K');
-}
-
-int	check_neighbor(t_map *map, int y, int x)
-{
-	if (!is_valid_neighbor(map, y, x) && map->map[y][x] == '0'
-		&& is_player_char(map->map[y][x]))
-		return (ft_error("Map not surrounded by walls\n"));
-	return (0);
+	while (i > 0)
+		free(map[--i]);
+	free(map);
 }
 
 int	flood_fill_check(t_map *map, int y, int x)
@@ -53,5 +45,9 @@ int	flood_fill_check(t_map *map, int y, int x)
 
 int	check_walls(t_map *map)
 {
-	return (flood_fill_check(map, 0, 0));
+	int	ret;
+
+	ret = flood_fill_check(map, 0, 0);
+	free_map_array(map->map, map->height);
+	return (ret);
 }

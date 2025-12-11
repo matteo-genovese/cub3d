@@ -10,19 +10,26 @@ OBJ_DIR = obj/
 INCLUDE_DIR = include/
 LIBFT_DIR = libft/
 
-SRC_FILES = main.c init/initialize.c init/init2.c \
-			rendering/texture_draw.c rendering/move.c rendering/dda.c \
+SRC_FILES_BASE = main.c init/initialize.c init/init2.c \
+			rendering/texture_draw.c rendering/dda.c \
 			parsing/input.c parsing/parse_settings.c \
 			parsing/parse_helpers.c parsing/parse_color.c \
-			parsing/parse_texture.c parsing/map.c \
+parsing/parse_texture.c parsing/map.c \
 			parsing/map_read.c parsing/map_utils.c \
 			parsing/map_validate.c parsing/map_check.c \
 			utils/escape.c utils/error.c
 
+SRC_FILES = $(SRC_FILES_BASE) rendering/move.c
+
+SRC_FILES_BONUS = $(SRC_FILES_BASE) rendering/move_bonus.c
+
 OBJ_FILES = $(SRC_FILES:.c=.o)
+OBJ_FILES_BONUS = $(SRC_FILES_BONUS:.c=.o)
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ = $(addprefix $(OBJ_DIR), $(OBJ_FILES))
+SRC_BONUS = $(addprefix $(SRC_DIR), $(SRC_FILES_BONUS))
+OBJ_BONUS = $(addprefix $(OBJ_DIR), $(OBJ_FILES_BONUS))
 
 MLX_LIB = ./mlx/libmlx.a
 LIBFT = ./libft/libft.a
@@ -46,14 +53,18 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 clean:
 	make -C ./mlx clean
 	make -C $(LIBFT_DIR) clean
-	rm -rf $(OBJ_DIR)
+	rm -rf $(OBJ_DIR) $(OBJ_FILES_BONUS)
 	@echo "Object files removed"
 
 fclean: clean
 	make -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
 	@echo "Executable $(NAME) removed"
-	
+
+bonus: $(LIBFT) $(OBJ_BONUS) $(MLX_LIB)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJ_BONUS) $(LIBS)
+	@echo "Bonus executable $(NAME) created"
+
 re: fclean all
 
 git:
@@ -62,4 +73,4 @@ git:
 	git commit -m "update"
 	git push
 
-.PHONY: all clean re fclean git
+.PHONY: all clean re fclean git bonus

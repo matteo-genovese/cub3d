@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 19:45:17 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/12/11 14:03:06 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/11/23 17:52:31 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,10 @@
 
 int	is_valid_move(t_vars *vars, double newX, double newY)
 {
-	double map_width;
-
-	map_width = (double)ft_strlen(vars->map[0]);
-	printf("map_height = %d, map_width = %ld\n", vars->map_height, ft_strlen(vars->map[0]));
-	printf("newX = %lf, newY= %lf\n", newX, newY);
-	return (newX < vars->map_height - 1 && newX > 1 && newY > 1 && newY < map_width - 1);
+	return (vars->map[(int)(newX)][(int)(newY)] != '1');
 }
 
-void	rotate_view(t_vars *vars, double angle)	
+void	rotate_view(t_vars *vars, double angle)
 {
 	double	old_dir[2];
 	double	old_plane[2];
